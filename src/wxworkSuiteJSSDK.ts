@@ -1,5 +1,4 @@
 import { apaasAxios as axios } from './axios'
-import { globalOptions } from './install'
 
 class WxworkSuiteJSSDK {
   public lastConfigUrl = ''
@@ -25,7 +24,7 @@ class WxworkSuiteJSSDK {
         newJsApiList = [...new Set([...this.lastConfigJsApiList, ...jsApiList])]
       }
 
-      const wxworksuitedata = globalOptions.getWxworkSuiteData()
+      const wxworksuitedata = this.getData()
 
       let signature: IAny = await axios.post('/api/wxwork/common/getJsapiSignature', {
         url: url,
@@ -76,7 +75,7 @@ class WxworkSuiteJSSDK {
         newJsApiList = [...new Set([...this.lastAgentConfigJsApiList, ...jsApiList])]
       }
 
-      const wxworksuitedata = globalOptions.getWxworkSuiteData()
+      const wxworksuitedata = this.getData()
 
       let signature: IAny = await axios.post('/api/wxwork/common/getSuiteJsapiSignature', {
         url: url,
@@ -194,6 +193,32 @@ class WxworkSuiteJSSDK {
     this.lastAgentConfigUrl = ''
     this.lastAgentConfigJsApiList = []
     this.initPro = null
+  }
+
+  getData () {
+    const wxworksuitedata = window.localStorage.getItem('wxworksuitedata')
+    if (wxworksuitedata) {
+      return JSON.parse(wxworksuitedata) as IAny
+    } else {
+      return {
+        corpId: '',
+        suiteKey: 'smartSFA'
+      }
+    }
+  }
+
+  setData (obj: any) {
+    obj.suiteKey = this.getData().suiteKey
+    window.localStorage.setItem('wxworksuitedata', JSON.stringify(obj))
+  }
+
+  removeData () {
+    window.localStorage.removeItem('wxworksuitedata')
+  }
+
+  checkData () {
+    const data = this.getData()
+    return !!data.corpId
   }
 }
 

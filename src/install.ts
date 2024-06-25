@@ -5,12 +5,6 @@ import { merge } from 'lodash-es'
 const globalOptions: any = {
   getToken () {
     return ''
-  },
-  getWxworkSuiteData () {
-    return {
-      corpId: '',
-      suiteKey: 'smartSFA'
-    }
   }
 }
 
