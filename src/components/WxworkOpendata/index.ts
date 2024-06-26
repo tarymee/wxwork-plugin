@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
-import wxworkSuiteJSSDK from '../../wxworkSuiteJSSDK'
+import jssdk from '../../jssdk'
 
 // @customElement('wxwork-opendata')
 export default class WxworkOpendata extends LitElement {
@@ -51,7 +51,7 @@ export default class WxworkOpendata extends LitElement {
     super.connectedCallback()
     console.log('connectedCallback')
 
-    await wxworkSuiteJSSDK.init().then((res: any) => {
+    await jssdk.init().then((res: any) => {
       console.log('window.WWOpenData', window.WWOpenData)
       // this.wwopendataRef = this.shadowRoot?.querySelector('ww-open-data')
 

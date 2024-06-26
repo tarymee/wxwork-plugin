@@ -1,5 +1,5 @@
 {
-  "name": "@smart100/wxwork-plugin",
+  "name": "@smart100/wxworksuite-plugin",
   "version": "0.0.1",
   "description": "",
   "scripts": {
@@ -10,9 +10,9 @@
   },
   "author": "tarymee <tarymee@qq.com>",
   "type": "module",
-  "browser1": "dist/wxwork-plugin.umd.js",
-  "main1": "dist/wxwork-plugin.cjs",
-  "module": "dist/wxwork-plugin.mjs",
+  "browser1": "dist/wxworksuite-plugin.umd.js",
+  "main1": "dist/wxworksuite-plugin.cjs",
+  "module": "dist/wxworksuite-plugin.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist",

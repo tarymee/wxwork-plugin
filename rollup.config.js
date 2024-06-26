@@ -24,7 +24,7 @@ export default {
     // {
     //   file: pkg.browser,
     //   format: 'umd',
-    //   name: 'wxwork-plugin',
+    //   name: 'wxworksuite-plugin',
     // },
     // {
     //   file: pkg.main,

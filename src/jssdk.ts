@@ -1,6 +1,6 @@
 import { apaasAxios as axios } from './axios'
 
-class WxworkSuiteJSSDK {
+class Jssdk {
   public lastConfigUrl = ''
   public lastConfigJsApiList: string[] = []
 
@@ -222,4 +222,4 @@ class WxworkSuiteJSSDK {
   }
 }
 
-export default new WxworkSuiteJSSDK()
+export default new Jssdk()

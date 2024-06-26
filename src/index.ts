@@ -1,17 +1,33 @@
 // import { version } from '../package.json'
-// import { spuAxios, apaasAxios } from './axios'
 import components from './components'
-import { install } from './install'
+import { initAxios } from './axios'
+import { merge } from 'lodash-es'
 
-const WxworkPlugin = {
-  // version,
-  install
+const globalOptions: any = {
+  getToken () {
+    return ''
+  }
 }
 
+const install = (options: any) => {
+  // console.log(app)
+  // console.log(app.version)
+  merge(globalOptions, options)
+  console.log('@smart100/wxworksuite-plugin start!')
+  console.log('options', options)
+  console.log('globalOptions', globalOptions)
+
+  initAxios(globalOptions)
+
+  for (const x in components) {
+    components[x].register()
+  }
+}
+
+
 export {
+  install,
+  globalOptions,
   // version,
-  WxworkPlugin as default,
-  // spuAxios,
-  // apaasAxios,
   components
 }

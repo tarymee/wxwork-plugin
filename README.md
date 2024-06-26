@@ -1,9 +1,9 @@
-# @smart100/wxwork-plugin
+# @smart100/wxworksuite-plugin
 
 + node >= 18.15.0
 
 ## 文档
-[@smart100/wxwork-plugin](https://tarymee.github.io/wxwork-plugin/)
+[@smart100/wxworksuite-plugin](https://tarymee.github.io/wxworksuite-plugin/)
 
 
 ## 发布
