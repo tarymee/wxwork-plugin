@@ -1,4 +1,4 @@
 
-export const spuAxios: any
-export const apaasAxios: any
-export const components: any
+export const install: any
+export const globalOptions: any
+export const jssdk: any

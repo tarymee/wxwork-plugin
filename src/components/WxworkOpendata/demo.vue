@@ -6,6 +6,17 @@
 
   <div class="test-wxwork-opendata">
     <wxwork-opendata ref="wxworkopendataRef" :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
   </div>
 </template>
 
@@ -42,7 +53,8 @@ const getValue = () => {
   margin: 8px 0;
 }
 .test-wxwork-opendata {
-  color: red;
-  font-size: 12px;
+  // color: red;
+  // font-size: 12px;
 }
+
 </style>
