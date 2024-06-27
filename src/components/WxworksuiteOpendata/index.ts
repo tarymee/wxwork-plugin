@@ -57,7 +57,7 @@ export default class WxworksuiteOpendata extends LitElement {
     super.connectedCallback()
     // console.log('connectedCallback')
 
-    await jssdk.init().then((res: any) => {
+    jssdk.init(['getLocation']).then((res: any) => {
       this.isCanUseWxworkSuite = true
       // console.log('window.WWOpenData', window.WWOpenData)
 
