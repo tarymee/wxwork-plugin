@@ -5,8 +5,6 @@
   <div class="test-wxworksuite-test">
     <wxworksuite-test ref="wxworksuitetestRef" _aaa="father_aaa" active="45646546" :foo="foo" :count="count" :obj="obj" :arr="arr" :classes="{ 'lithhh': true }" :flag="true" name12="ddddd"></wxworksuite-test>
   </div>
-
-
 </template>
 
 <script lang="ts" setup>

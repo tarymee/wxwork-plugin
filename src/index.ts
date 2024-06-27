@@ -10,13 +10,13 @@ const globalOptions: any = {
   }
 }
 
-const install = (options: any) => {
+const WxworksuitePluginInstall = (options: any) => {
   // console.log(app)
   // console.log(app.version)
   merge(globalOptions, options)
-  console.log('@smart100/wxworksuite-plugin start!')
-  console.log('options', options)
-  console.log('globalOptions', globalOptions)
+  console.log('@smart100/wxworksuite-plugin install')
+  // console.log('options', options)
+  // console.log('globalOptions', globalOptions)
 
   initAxios(globalOptions)
 
@@ -25,10 +25,8 @@ const install = (options: any) => {
   }
 }
 
-
 export {
   // version
-  install,
-  globalOptions,
+  WxworksuitePluginInstall,
   jssdk
 }
