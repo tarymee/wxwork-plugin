@@ -147,7 +147,7 @@ export default class WxworksuiteTest extends LitElement {
       </div>
 
       <div class="demo">
-        ${this.flag ? html`<div>flag: true</div>` : 'flag: false'}
+        ${ this.flag ? html`<div>flag: true</div>` : 'flag: false' }
       </div>
 
       <div class="demo">
