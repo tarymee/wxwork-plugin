@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
+import { property, state } from 'lit/decorators.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 
@@ -17,6 +17,7 @@ export default class WxworksuiteTreeitem extends LitElement {
     :host {
       display: block
     }
+
 .treeNodeItem {
   width: 100%;
   height: auto;
@@ -63,18 +64,14 @@ export default class WxworksuiteTreeitem extends LitElement {
   @property({ type: Boolean })
   isexpand: boolean = false
 
+  @property({ type: Number })
+  expandlevel: number = 0
+
+  @property({ type: Boolean })
+  ismulselect: boolean = false
+
   @state()
   protected _isFold: boolean = false
-
-  @state()
-  protected _opendata: any = {
-    type: 'userName',
-    openid: 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA'
-  }
-
-  get computedvalue () {
-    return this.item + 'computedvalue'
-  }
 
   constructor () {
     super()
@@ -82,8 +79,9 @@ export default class WxworksuiteTreeitem extends LitElement {
 
   connectedCallback () {
     super.connectedCallback()
-    console.warn('connectedCallback')
+
     this._isFold = this.isexpand
+    console.log('item', this.item)
   }
 
   private clickIconFold () {
@@ -131,7 +129,7 @@ export default class WxworksuiteTreeitem extends LitElement {
               'noChildrenIcon': !this.item.children.length
             })}
           >
-            {{ item.name }}
+            ${this.item.label}
           </span>
         </div>
 
@@ -146,7 +144,14 @@ export default class WxworksuiteTreeitem extends LitElement {
             ?
             html`
               ${this.item.children.map((item2: any) => {
-                return html`<wxworksuite-treeitem item="${item2}" isexpand="${this.isexpand}"></wxworksuite-treeitem>`
+                return html`
+                  <wxworksuite-treeitem
+                    item="${JSON.stringify(item2)}"
+                    expandlevel="${this.expandlevel}"
+                    ismulselect="${this.ismulselect}"
+                  >
+                  </wxworksuite-treeitem>
+                `
               })}
             `
             :

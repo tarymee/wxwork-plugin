@@ -5,6 +5,7 @@
   <div class="test-wxworksuite-test">
     <wxworksuite-test
       ref="wxworksuitetestRef"
+      @change="handleChange"
       :flag="true"
       name1="外部属性传入"
       :count="count"
@@ -23,6 +24,7 @@ import { ref, reactive } from 'vue'
 const wxworksuitetestRef = ref<any>(null)
 
 const count = ref(8)
+const name1 = ref('外部属性传入')
 const obj = ref({
   bbb: 'aaa'
 })
@@ -35,6 +37,13 @@ const test = () => {
   // wxworksuitetestRef.value.change()
   console.log(count.value)
   count.value++
+}
+
+const handleChange = (e) => {
+  console.log('handleChange')
+  console.log(e)
+  count.value = e.detail.count
+  name1.value = e.detail.name1
 }
 
 </script>

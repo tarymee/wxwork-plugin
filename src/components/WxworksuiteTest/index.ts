@@ -127,6 +127,15 @@ export default class WxworksuiteTest extends LitElement {
 
     this._opendata.type = this._opendata.type === 'departmentName' ? 'userName' : 'departmentName'
     this._opendata.openid = this._opendata.openid === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
+
+
+
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        count: this.count,
+        name1: this.name1
+      }
+    }))
   }
 
   private test (e: Event) {
@@ -183,7 +192,8 @@ export default class WxworksuiteTest extends LitElement {
               ${this.arr.map((item: any) => {
                 return html`<li>${item.vvv}</li>`
               })}
-            </ul>`
+            </ul>
+          `
           :
           ''
         }

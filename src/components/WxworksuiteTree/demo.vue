@@ -5,13 +5,9 @@
   <div class="test-wxworksuite-tree">
     <wxworksuite-tree
       ref="wxworksuitetreeRef"
-      :flag="true"
-      name1="外部属性传入"
-      :count="count"
-      :classes="{ 'lithhh': true }"
-      _active="外部属性传入"
-      :obj="obj"
-      :arr="arr"
+      :data="data"
+      :expandlevel="expandlevel"
+      :ismulselect="ismulselect"
     >
     </wxworksuite-tree>
   </div>
@@ -22,13 +18,68 @@ import { ref, reactive } from 'vue'
 
 const wxworksuitetreeRef = ref<any>(null)
 
-const count = ref(8)
-const obj = ref({
-  bbb: 'aaa'
-})
-const arr = ref([{
-  vvv: 'vvv'
-}])
+const ismulselect = ref(false)
+const expandlevel = ref(0)
+
+const data = ref(
+  [
+    {
+      label: 'Level one 1',
+      children: [
+        {
+          label: 'Level two 1-1',
+          children: [
+            {
+              label: 'Level three 1-1-1',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Level one 2',
+      children: [
+        {
+          label: 'Level two 2-1',
+          children: [
+            {
+              label: 'Level three 2-1-1',
+            },
+          ],
+        },
+        {
+          label: 'Level two 2-2',
+          children: [
+            {
+              label: 'Level three 2-2-1',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Level one 3',
+      children: [
+        {
+          label: 'Level two 3-1',
+          children: [
+            {
+              label: 'Level three 3-1-1',
+            },
+          ],
+        },
+        {
+          label: 'Level two 3-2',
+          children: [
+            {
+              label: 'Level three 3-2-1',
+            },
+          ],
+        },
+      ],
+    }
+  ]
+)
 
 const test = () => {
   // console.log(wxworksuitetreeRef.value)
