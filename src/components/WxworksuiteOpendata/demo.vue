@@ -2,20 +2,11 @@
   <div class="test">
     <van-button class="btn" type="primary" size="large" @click="change">change</van-button>
     <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
+    <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button>
   </div>
 
   <div class="test-wxworksuite-opendata">
     <wxworksuite-opendata ref="wxworksuiteopendataRef" :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
     <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
   </div>
 </template>
@@ -42,6 +33,15 @@ const getValue = () => {
   // debugger
   const value = wxworksuiteopendataRef.value.getValue()
   console.log(value)
+}
+
+const setValue = () => {
+  console.log(wxworksuiteopendataRef.value)
+  // debugger
+  wxworksuiteopendataRef.value.setValue({
+    type: type.value === 'departmentName' ? 'userName' : 'departmentName',
+    openid: openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
+  })
 }
 </script>
 

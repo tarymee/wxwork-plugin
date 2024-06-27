@@ -163,22 +163,22 @@ class Jssdk {
           await this.config(jsApiList)
         }
         await this.agentConfig(jsApiList)
+
+        window.WWOpenData.checkSession({
+          success: () => {
+            console.info('open-data 登录态校验成功')
+            resolve('success')
+          },
+          fail: (err: any) => {
+            console.error('open-data 登录态过期')
+            this.reset()
+            reject(err)
+          }
+        })
       } catch (err) {
         this.reset()
         reject(err)
       }
-
-      window.WWOpenData.checkSession({
-        success: () => {
-          console.info('open-data 登录态校验成功')
-          resolve('success')
-        },
-        fail: (err: any) => {
-          console.error('open-data 登录态过期')
-          this.reset()
-          reject(err)
-        }
-      })
     })
   }
 

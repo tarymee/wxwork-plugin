@@ -24,7 +24,7 @@ export default class WxworksuiteOpendata extends LitElement {
   declare openid: string
   declare type: string
   declare mode: string
-  declare isWxworkSuiteTenant: boolean
+  declare isCanUseWxworkSuite: boolean
   static properties = {
     openid: {
       type: String
@@ -35,7 +35,7 @@ export default class WxworksuiteOpendata extends LitElement {
     mode: {
       type: String // open | close
     },
-    isWxworkSuiteTenant: {
+    isCanUseWxworkSuite: {
       type: Boolean
     }
   }
@@ -45,7 +45,7 @@ export default class WxworksuiteOpendata extends LitElement {
     this.openid = ''
     this.type = ''
     this.mode = 'close'
-    this.isWxworkSuiteTenant = false
+    this.isCanUseWxworkSuite = false
   }
 
   // private wwopendataRef: any = null
@@ -58,7 +58,7 @@ export default class WxworksuiteOpendata extends LitElement {
     // console.log('connectedCallback')
 
     await jssdk.init().then((res: any) => {
-      this.isWxworkSuiteTenant = true
+      this.isCanUseWxworkSuite = true
       // console.log('window.WWOpenData', window.WWOpenData)
 
       if (window.WWOpenData && this.wwopendataRef) {
@@ -69,8 +69,8 @@ export default class WxworksuiteOpendata extends LitElement {
         // })
       }
     }).catch((err) => {
-      console.error(err)
-      this.isWxworkSuiteTenant = false
+      // console.error(err)
+      this.isCanUseWxworkSuite = false
     })
   }
 
@@ -88,7 +88,7 @@ export default class WxworksuiteOpendata extends LitElement {
     // debugger
     const value = this.getValue()
     console.log(value)
-    this.isWxworkSuiteTenant = !this.isWxworkSuiteTenant
+    this.isCanUseWxworkSuite = !this.isCanUseWxworkSuite
   }
 
   getValue () {
@@ -109,16 +109,21 @@ export default class WxworksuiteOpendata extends LitElement {
     return data
   }
 
+  setValue (obj: any) {
+    this.type = obj.type
+    this.openid = obj.openid
+  }
+
   render () {
     // return html`<p>Hello, ${this.foo}!</p>`
     // console.log(this.openid)
     // console.log(this.type)
     // console.log(this.mode)
     // <button @click="${this.test}">test</button>
-    // ${this.isWxworkSuiteTenant ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid}
-    // ${ this.isWxworkSuiteTenant ? html`true` : 'false' }
+    // ${this.isCanUseWxworkSuite ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid}
+    // ${ this.isCanUseWxworkSuite ? html`true` : 'false' }
     return html`
-      ${ this.isWxworkSuiteTenant ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid }
+      ${ this.isCanUseWxworkSuite ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid }
     `
   }
 }
