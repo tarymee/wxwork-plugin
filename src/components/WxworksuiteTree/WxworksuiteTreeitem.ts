@@ -61,7 +61,7 @@ export default class WxworksuiteTreeitem extends LitElement {
   item?: any = {}
 
   @property({ type: Boolean })
-  expandTree: boolean = false
+  isexpand: boolean = false
 
   @state()
   protected _isFold: boolean = false
@@ -73,11 +73,17 @@ export default class WxworksuiteTreeitem extends LitElement {
   }
 
   get computedvalue () {
-    return this.name1 + 'computedvalue'
+    return this.item + 'computedvalue'
   }
 
   constructor () {
     super()
+  }
+
+  connectedCallback () {
+    super.connectedCallback()
+    console.warn('connectedCallback')
+    this._isFold = this.isexpand
   }
 
   private clickIconFold () {
@@ -140,7 +146,7 @@ export default class WxworksuiteTreeitem extends LitElement {
             ?
             html`
               ${this.item.children.map((item2: any) => {
-                return html`<wxworksuite-treeitem item="${item2}"></wxworksuite-treeitem>`
+                return html`<wxworksuite-treeitem item="${item2}" isexpand="${this.isexpand}"></wxworksuite-treeitem>`
               })}
             `
             :

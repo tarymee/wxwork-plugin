@@ -70,26 +70,26 @@ export default class WxworksuiteTest extends LitElement {
 
   constructor () {
     super()
-  }
-
-  firstUpdated () {
-    console.log('firstUpdated')
+    console.warn('constructor')
     this.print()
-  }
-
-  print () {
-    console.log('firstUpdated')
-    console.log('this', this)
-    console.log('this.renderRoot', this.renderRoot)
-    console.log('this.count', this.count, typeof this.count)
-    console.log('this.classes', this.classes)
-    console.log('this._styleObj', this._styleObj)
-    console.log('this.flag', this.flag, typeof this.flag)
-    console.log('this.arr', this.arr, typeof this.arr)
   }
 
   connectedCallback () {
     super.connectedCallback()
+    console.warn('connectedCallback')
+    this.print()
+  }
+
+  // 在组件的 DOM 第一次更新后调用，紧接在调用 updated() 之前
+  firstUpdated () {
+    console.warn('firstUpdated')
+    this.print()
+  }
+
+  // 每当组件的更新完成并且元素的 DOM 已更新和呈现时调用
+  updated () {
+    console.warn('updated')
+    this.print()
   }
 
   disconnectedCallback () {
@@ -100,8 +100,18 @@ export default class WxworksuiteTest extends LitElement {
     console.log('属性变化', name, oldValue, newValue)
   }
 
+  print () {
+    console.log('this', this)
+    console.log('this.renderRoot', this.renderRoot)
+    console.log('this.count', this.count, typeof this.count)
+    console.log('this.classes', this.classes)
+    console.log('this._styleObj', this._styleObj)
+    console.log('this.flag', this.flag, typeof this.flag)
+    console.log('this.arr', this.arr, typeof this.arr)
+  }
+
   private change (e: Event) {
-    console.log('change')
+    console.warn('change')
     this.print()
 
     this.count++
