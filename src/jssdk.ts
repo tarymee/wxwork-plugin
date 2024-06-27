@@ -24,8 +24,10 @@ class Jssdk {
       const script: any = document.createElement('script')
       script.setAttribute('type', 'text/javascript')
       script.setAttribute('src', url)
-      for (const x in property) {
-        script.setAttribute(x, property[x])
+      if (property) {
+        for (const x in property) {
+          script.setAttribute(x, property[x])
+        }
       }
       document.getElementsByTagName('head')[0].appendChild(script)
       script.onload = script.onreadystatechange = () => {

@@ -3,13 +3,13 @@ import { customElement, property, state } from 'lit/decorators.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 
-// @customElement('wxworksuite-test')
-export default class WxworksuiteTest extends LitElement {
+// @customElement('wxworksuite-tree')
+export default class WxworksuiteTree extends LitElement {
 
-  static componentName: string = 'wxworksuite-test'
+  static componentName: string = 'wxworksuite-tree'
   static register () {
-    if (!window.customElements.get(WxworksuiteTest.componentName)) {
-      window.customElements.define(WxworksuiteTest.componentName, WxworksuiteTest)
+    if (!window.customElements.get(WxworksuiteTree.componentName)) {
+      window.customElements.define(WxworksuiteTree.componentName, WxworksuiteTree)
     }
   }
 
@@ -182,4 +182,4 @@ export default class WxworksuiteTest extends LitElement {
   }
 }
 
-// window.customElements.define('wxworksuite-test', WxworksuiteTest)
+// window.customElements.define('wxworksuite-tree', WxworksuiteTree)

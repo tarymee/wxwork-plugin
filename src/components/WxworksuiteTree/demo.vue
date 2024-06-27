@@ -2,9 +2,9 @@
   <div class="test">
     <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
   </div>
-  <div class="test-wxworksuite-test">
-    <wxworksuite-test
-      ref="wxworksuitetestRef"
+  <div class="test-wxworksuite-tree">
+    <wxworksuite-tree
+      ref="wxworksuitetreeRef"
       :flag="true"
       name1="外部属性传入"
       :count="count"
@@ -13,14 +13,14 @@
       :obj="obj"
       :arr="arr"
     >
-    </wxworksuite-test>
+    </wxworksuite-tree>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 
-const wxworksuitetestRef = ref<any>(null)
+const wxworksuitetreeRef = ref<any>(null)
 
 const count = ref(8)
 const obj = ref({
@@ -31,8 +31,8 @@ const arr = ref([{
 }])
 
 const test = () => {
-  // console.log(wxworksuitetestRef.value)
-  // wxworksuitetestRef.value.change()
+  // console.log(wxworksuitetreeRef.value)
+  // wxworksuitetreeRef.value.change()
   console.log(count.value)
   count.value++
 }
@@ -46,7 +46,7 @@ const test = () => {
 .test button {
   margin: 8px 0;
 }
-.test-wxworksuite-test {
+.test-wxworksuite-tree {
 
 }
 </style>
