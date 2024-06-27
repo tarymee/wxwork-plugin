@@ -16,6 +16,7 @@ export default class WxworksuiteOpendata extends LitElement {
 
   static styles = css`
     :host {
+      // display: inline-block;
       // color: red;
     }
   `
@@ -23,6 +24,7 @@ export default class WxworksuiteOpendata extends LitElement {
   declare openid: string
   declare type: string
   declare mode: string
+  declare isWxworkSuiteTenant: boolean
   static properties = {
     openid: {
       type: String
@@ -32,6 +34,9 @@ export default class WxworksuiteOpendata extends LitElement {
     },
     mode: {
       type: String // open | close
+    },
+    isWxworkSuiteTenant: {
+      type: Boolean
     }
   }
 
@@ -40,6 +45,7 @@ export default class WxworksuiteOpendata extends LitElement {
     this.openid = ''
     this.type = ''
     this.mode = 'close'
+    this.isWxworkSuiteTenant = false
   }
 
   // private wwopendataRef: any = null
@@ -49,11 +55,11 @@ export default class WxworksuiteOpendata extends LitElement {
 
   async connectedCallback () {
     super.connectedCallback()
-    console.log('connectedCallback')
+    // console.log('connectedCallback')
 
     await jssdk.init().then((res: any) => {
-      console.log('window.WWOpenData', window.WWOpenData)
-      // this.wwopendataRef = this.shadowRoot?.querySelector('ww-open-data')
+      this.isWxworkSuiteTenant = true
+      // console.log('window.WWOpenData', window.WWOpenData)
 
       if (window.WWOpenData && this.wwopendataRef) {
         window.WWOpenData.bind(this.wwopendataRef)
@@ -62,13 +68,16 @@ export default class WxworksuiteOpendata extends LitElement {
         //   console.error('获取数据失败')
         // })
       }
+    }).catch((err) => {
+      console.error(err)
+      this.isWxworkSuiteTenant = false
     })
   }
 
   // 当组件从 DOM 文档移除后调用。
   disconnectedCallback () {
     super.disconnectedCallback()
-    console.log('disconnectedCallback')
+    // console.log('disconnectedCallback')
   }
 
   private test (e: Event) {
@@ -79,6 +88,7 @@ export default class WxworksuiteOpendata extends LitElement {
     // debugger
     const value = this.getValue()
     console.log(value)
+    this.isWxworkSuiteTenant = !this.isWxworkSuiteTenant
   }
 
   getValue () {
@@ -101,15 +111,14 @@ export default class WxworksuiteOpendata extends LitElement {
 
   render () {
     // return html`<p>Hello, ${this.foo}!</p>`
-    // return html`<p>Hello,!</p>`
     // console.log(this.openid)
     // console.log(this.type)
     // console.log(this.mode)
-    // <div div id = "aaaa" @click="${this.test}" >
-    //   ${ this.openid }, ${ this.type } !
-    // </div>
+    // <button @click="${this.test}">test</button>
+    // ${this.isWxworkSuiteTenant ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid}
+    // ${ this.isWxworkSuiteTenant ? html`true` : 'false' }
     return html`
-      <ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />
+      ${ this.isWxworkSuiteTenant ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid }
     `
   }
 }

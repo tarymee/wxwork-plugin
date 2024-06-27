@@ -10,7 +10,6 @@ import image from '@rollup/plugin-image'
 import pkg from './package.json' assert { type: 'json' }
 // const pkg = require('./package.json')
 
-
 export default {
   input: 'src/index.ts', // 打包入口
   output: [
@@ -65,7 +64,9 @@ export default {
     })
   ],
   external: [
+    // 'lit',
+    // 'axios',
     // 'vconsole',
-    'vue'
+    // 'vue'
   ]
 }

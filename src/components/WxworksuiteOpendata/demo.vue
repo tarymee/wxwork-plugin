@@ -4,8 +4,19 @@
     <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
   </div>
 
-  <div class="test-wxworksuite-opendata">
-    <wxworksuite-opendata ref="wxworkopendataRef" :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+  <div class="test-wxwork-opendata">
+    <wxwork-opendata ref="wxworkopendataRef" :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
   </div>
 </template>
 
@@ -42,7 +53,8 @@ const getValue = () => {
   margin: 8px 0;
 }
 .test-wxworksuite-opendata {
-  color: red;
-  font-size: 12px;
+  // color: red;
+  // font-size: 12px;
 }
+
 </style>

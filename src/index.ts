@@ -1,6 +1,7 @@
 // import { version } from '../package.json'
 import components from './components'
 import { initAxios } from './axios'
+import jssdk from './jssdk'
 import { merge } from 'lodash-es'
 
 const globalOptions: any = {
@@ -26,8 +27,8 @@ const install = (options: any) => {
 
 
 export {
+  // version
   install,
   globalOptions,
-  // version,
-  components
+  jssdk
 }

@@ -140,6 +140,13 @@ class Jssdk {
 
   async initFun (jsApiList: string[] = []) {
     return new Promise(async (resolve, reject) => {
+
+      if (!this.checkData()) {
+        reject(new Error('The current tenant is not a wxworksuite tenant.'))
+        return false
+      }
+
+
       if (!this.isHack) {
         this.hack()
         this.isHack = true
@@ -219,6 +226,7 @@ class Jssdk {
   checkData () {
     const data = this.getData()
     return !!data.corpId
+    // return false
   }
 }
 
