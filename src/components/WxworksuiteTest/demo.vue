@@ -3,7 +3,7 @@
     <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
   </div>
   <div class="test-wxworksuite-test">
-    <wxworksuite-test ref="wxworktestRef" _aaa="father_aaa" active="45646546" :foo="foo" :count="count" :obj="obj" :arr="arr" :classes="{ 'lithhh': true }" :flag="true" name12="ddddd"></wxworksuite-test>
+    <wxworksuite-test ref="wxworksuitetestRef" _aaa="father_aaa" active="45646546" :foo="foo" :count="count" :obj="obj" :arr="arr" :classes="{ 'lithhh': true }" :flag="true" name12="ddddd"></wxworksuite-test>
   </div>
 
 
@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 
-const wxworktestRef = ref<any>(null)
+const wxworksuitetestRef = ref<any>(null)
 const foo = ref('hello')
 const count = ref(8)
 const obj = ref({
@@ -22,8 +22,8 @@ const arr = ref([{
   vvv: 'vvv'
 }])
 const test = () => {
-  console.log(wxworktestRef.value)
-  wxworktestRef.value.change()
+  console.log(wxworksuitetestRef.value)
+  wxworksuitetestRef.value.change()
 }
 
 </script>

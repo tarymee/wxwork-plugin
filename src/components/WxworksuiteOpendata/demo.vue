@@ -4,19 +4,19 @@
     <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
   </div>
 
-  <div class="test-wxwork-opendata">
-    <wxwork-opendata ref="wxworkopendataRef" :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
-    <wxwork-opendata :type="type" :openid="openid" mode="open"></wxwork-opendata>
+  <div class="test-wxworksuite-opendata">
+    <wxworksuite-opendata ref="wxworksuiteopendataRef" :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 import { ref, reactive } from 'vue'
 // import wxworkOpendata from './index.vue'
 
-const wxworkopendataRef = ref<any>(null)
+const wxworksuiteopendataRef = ref<any>(null)
 const show = ref(true)
 const type = ref('userName')
 const openid = ref('woOUQJEAAATELkAo5cgbkznEdBjmtgcA')
@@ -38,9 +38,9 @@ const change = async () => {
 }
 
 const getValue = () => {
-  console.log(wxworkopendataRef.value)
+  console.log(wxworksuiteopendataRef.value)
   // debugger
-  const value = wxworkopendataRef.value.getValue()
+  const value = wxworksuiteopendataRef.value.getValue()
   console.log(value)
 }
 </script>
