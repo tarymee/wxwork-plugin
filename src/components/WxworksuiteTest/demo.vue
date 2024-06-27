@@ -2,8 +2,8 @@
   <div class="test">
     <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
   </div>
-  <div class="test-wxwork-test">
-    <wxwork-test ref="wxworktestRef" _aaa="father_aaa" active="45646546" :foo="foo" :count="count" :obj="obj" :arr="arr" :classes="{ 'lithhh': true }" :flag="true" name12="ddddd"></wxwork-test>
+  <div class="test-wxworksuite-test">
+    <wxworksuite-test ref="wxworktestRef" _aaa="father_aaa" active="45646546" :foo="foo" :count="count" :obj="obj" :arr="arr" :classes="{ 'lithhh': true }" :flag="true" name12="ddddd"></wxworksuite-test>
   </div>
 
 

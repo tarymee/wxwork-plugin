@@ -6,7 +6,7 @@ import type {
 } from 'axios'
 import { get } from 'lodash-es'
 // import { Message } from 'element-ui'
-import { loadding } from './components/loadding'
+import { loadding } from './components/WxworksuiteLoadding/loadding'
 
 interface Response {
   code: number | string

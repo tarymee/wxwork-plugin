@@ -1,10 +1,12 @@
 // import SpuLoadding from './loadding'
-import WxworkOpendata from './WxworkOpendata'
-import WxworkTest from './WxworkTest'
+import WxworksuiteOpendata from './WxworksuiteOpendata'
+import WxworksuiteTest from './WxworksuiteTest'
+import WxworksuiteLoadding from './WxworksuiteLoadding'
 
 const components: any = {
-  WxworkTest,
-  WxworkOpendata
+  WxworksuiteTest,
+  WxworksuiteOpendata,
+  WxworksuiteLoadding
 }
 
 export default components

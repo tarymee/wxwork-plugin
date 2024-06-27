@@ -4,13 +4,13 @@ import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import jssdk from '../../jssdk'
 
-// @customElement('wxwork-opendata')
-export default class WxworkOpendata extends LitElement {
+// @customElement('wxworksuite-opendata')
+export default class WxworksuiteOpendata extends LitElement {
 
-  static componentName: string = 'wxwork-opendata'
+  static componentName: string = 'wxworksuite-opendata'
   static register () {
-    if (!window.customElements.get(WxworkOpendata.componentName)) {
-      window.customElements.define(WxworkOpendata.componentName, WxworkOpendata)
+    if (!window.customElements.get(WxworksuiteOpendata.componentName)) {
+      window.customElements.define(WxworksuiteOpendata.componentName, WxworksuiteOpendata)
     }
   }
 
@@ -114,4 +114,4 @@ export default class WxworkOpendata extends LitElement {
   }
 }
 
-// window.customElements.define('wxwork-opendata', WxworkOpendata)
+// window.customElements.define('wxworksuite-opendata', WxworksuiteOpendata)

@@ -8,7 +8,7 @@ const styletext = `
     z-index: 10000;
     background-color: rgba(255, 255, 255, 0.2);
   }
-  :host .spu-loadding {
+  :host .wxworksuite-loadding {
     width: 100%;
     height: 100%;
     display: flex;
@@ -16,7 +16,7 @@ const styletext = `
     justify-content: center;
   }
 
-  :host .spu-loadding-icon {
+  :host .wxworksuite-loadding-icon {
     width: 24px;
     height: 24px;
     background-size: cover;
@@ -27,17 +27,17 @@ const styletext = `
 `
 
 const template = `
-  <div class="spu-loadding">
-    <div class="spu-loadding-icon"></div>
+  <div class="wxworksuite-loadding">
+    <div class="wxworksuite-loadding-icon"></div>
   </div>
 `
 
-export default class SpuLoadding extends HTMLElement {
+export default class WxworksuiteLoadding extends HTMLElement {
 
-  static componentName: string = 'spu-loadding'
+  static componentName: string = 'wxworksuite-loadding'
   static register () {
-    if (!window.customElements.get(SpuLoadding.componentName)) {
-      window.customElements.define(SpuLoadding.componentName, SpuLoadding)
+    if (!window.customElements.get(WxworksuiteLoadding.componentName)) {
+      window.customElements.define(WxworksuiteLoadding.componentName, WxworksuiteLoadding)
     }
   }
 
@@ -61,7 +61,7 @@ export default class SpuLoadding extends HTMLElement {
       this.appendStyle()
 
 
-      // this.shadow.querySelector('.spu-loadding').addEventListener('click', () => {
+      // this.shadow.querySelector('.wxworksuite-loadding').addEventListener('click', () => {
       //   console.log(this)
       //   console.log(this.isuseshadow)
       //   console.log(this.shadow)
@@ -95,7 +95,7 @@ export default class SpuLoadding extends HTMLElement {
   createStyleEle () {
     var styleElement = document.createElement('style')
     styleElement.type = 'text/css'
-    styleElement.id = SpuLoadding.componentName
+    styleElement.id = WxworksuiteLoadding.componentName
     styleElement.innerHTML = styletext
     return styleElement
   }
@@ -105,7 +105,7 @@ export default class SpuLoadding extends HTMLElement {
       const style = this.createStyleEle()
       this.shadow!.appendChild(style)
     } else {
-      if (!document.getElementById(SpuLoadding.componentName)) {
+      if (!document.getElementById(WxworksuiteLoadding.componentName)) {
         const style = this.createStyleEle()
         document.getElementsByTagName('head')[0].appendChild(style)
       }
@@ -121,13 +121,13 @@ class Loadding {
   ele: null | HTMLElement = null
 
   constructor () {
-    SpuLoadding.register()
+    WxworksuiteLoadding.register()
   }
 
   open () {
     this.count++
     if (!this.ele) {
-      this.ele = document.createElement('spu-loadding')
+      this.ele = document.createElement('wxworksuite-loadding')
       // console.log(this.ele)
       document.body.appendChild(this.ele)
     }
