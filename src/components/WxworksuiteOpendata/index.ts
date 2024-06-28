@@ -74,12 +74,6 @@ export default class WxworksuiteOpendata extends LitElement {
     })
   }
 
-  // 当组件从 DOM 文档移除后调用。
-  disconnectedCallback () {
-    super.disconnectedCallback()
-    // console.log('disconnectedCallback')
-  }
-
   private test (e: Event) {
     // console.log(this.shadowRoot)
     // console.log(this.renderRoot)

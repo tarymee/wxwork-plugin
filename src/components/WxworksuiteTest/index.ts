@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
+import { property, state } from 'lit/decorators.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 
@@ -22,7 +22,10 @@ export default class WxworksuiteTest extends LitElement {
       margin: 5px 10px;
     }
   `
-  @property({ type: Boolean })
+
+  @property({
+    type: Boolean
+  })
   flag: boolean = true
 
   // reflect: true
@@ -38,6 +41,9 @@ export default class WxworksuiteTest extends LitElement {
     'someclass': true,
     'anotherclass': true
   }
+
+  @property({ type: Object })
+  obj?: any = {}
 
   @property({ type: Array })
   arr?: any = []
@@ -105,6 +111,7 @@ export default class WxworksuiteTest extends LitElement {
     console.log('this.renderRoot', this.renderRoot)
     console.log('this.count', this.count, typeof this.count)
     console.log('this.classes', this.classes)
+    console.log('this.obj', this.obj)
     console.log('this._styleObj', this._styleObj)
     console.log('this.flag', this.flag, typeof this.flag)
     console.log('this.arr', this.arr, typeof this.arr)
@@ -117,10 +124,13 @@ export default class WxworksuiteTest extends LitElement {
     this.count++
     this.name1 = this.name1 + '1'
     this.classes.xxx = true
+    this.obj.cccc = 'dd45'
     this.flag = !this.flag
     this.arr.push({
-      vvv: 'ssss'
+      id: Date.now().toString(),
+      name: 'ssss'
     })
+
 
     this._active = this._active + '1'
     this._styleObj.color = this._styleObj.color === 'red' ? 'blue' : 'red'
@@ -128,9 +138,10 @@ export default class WxworksuiteTest extends LitElement {
     this._opendata.type = this._opendata.type === 'departmentName' ? 'userName' : 'departmentName'
     this._opendata.openid = this._opendata.openid === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
 
-
-
+    // 向父级发送事件
     this.dispatchEvent(new CustomEvent('change', {
+      bubbles: true,
+      composed: true,
       detail: {
         count: this.count,
         name1: this.name1
@@ -170,6 +181,10 @@ export default class WxworksuiteTest extends LitElement {
       </div>
 
       <div class="demo">
+        obj: ${JSON.stringify(this.obj)}
+      </div>
+
+      <div class="demo">
         _active: ${this._active}
       </div>
 
@@ -190,7 +205,7 @@ export default class WxworksuiteTest extends LitElement {
           html`
             <ul>
               ${this.arr.map((item: any) => {
-                return html`<li>${item.vvv}</li>`
+                return html`<li>${item.name}</li>`
               })}
             </ul>
           `

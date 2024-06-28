@@ -1,8 +1,19 @@
 <template>
   <div class="test">
     <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
+    <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
+    <!-- <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button> -->
   </div>
+
+  {{ arr }}
+
   <div class="test-wxworksuite-test">
+    <wxworksuite-test2
+      :arr="arr"
+      :flag="true"
+    >
+    </wxworksuite-test2>
+
     <wxworksuite-test
       ref="wxworksuitetestRef"
       @change="handleChange"
@@ -28,9 +39,22 @@ const name1 = ref('外部属性传入')
 const obj = ref({
   bbb: 'aaa'
 })
-const arr = ref([{
-  vvv: 'vvv'
-}])
+const arr = ref(
+  [
+    {
+      id: '111',
+      name: 'vvv'
+    },
+    {
+      id: '222',
+      name: 'vvv'
+    },
+    {
+      id: '333',
+      name: 'vvv'
+    }
+  ]
+)
 
 const test = () => {
   // console.log(wxworksuitetestRef.value)
@@ -46,6 +70,21 @@ const handleChange = (e) => {
   name1.value = e.detail.name1
 }
 
+const getValue = () => {
+  console.log(wxworksuitetestRef.value)
+  // debugger
+  const value = wxworksuitetestRef.value.getValue()
+  console.log(value)
+}
+
+// const setValue = () => {
+//   console.log(wxworksuitetestRef.value)
+//   // debugger
+//   wxworksuitetestRef.value.setValue({
+//     type: type.value === 'departmentName' ? 'userName' : 'departmentName',
+//     openid: openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
+//   })
+// }
 </script>
 
 <style lang="less" scoped>

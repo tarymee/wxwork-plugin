@@ -1,11 +1,13 @@
 <template>
   <div class="test">
     <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
+    <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
+    <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button>
   </div>
   <div class="test-wxworksuite-tree">
     <wxworksuite-tree
       ref="wxworksuitetreeRef"
-      :data="data"
+      :treedata="treedata"
       :expandlevel="expandlevel"
       :ismulselect="ismulselect"
     >
@@ -21,58 +23,59 @@ const wxworksuitetreeRef = ref<any>(null)
 const ismulselect = ref(false)
 const expandlevel = ref(0)
 
-const data = ref(
+const treedata = ref(
   [
     {
-      label: 'Level one 1',
+      name: 'Level one 1',
+      id: 'Level one 1',
+      selected: true,
       children: [
         {
-          label: 'Level two 1-1',
+          name: 'Level two 1-1',
+          id: 'Level two 1-1',
+          selected: false,
           children: [
             {
-              label: 'Level three 1-1-1',
+              name: 'Level three 1-1-1',
+              id: 'Level three 1-1-1',
+              selected: true,
             },
           ],
         },
       ],
     },
     {
-      label: 'Level one 2',
+      name: 'Level one 2',
+      id: 'Level one 2',
+      selected: false,
       children: [
         {
-          label: 'Level two 2-1',
+          name: 'Level two 2-1',
+          id: 'Level two 2-1',
+          selected: false,
           children: [
             {
-              label: 'Level three 2-1-1',
+              name: 'Level three 2-1-1',
+              id: 'Level three 2-1-1',
+              selected: false,
             },
           ],
         },
         {
-          label: 'Level two 2-2',
-          children: [
-            {
-              label: 'Level three 2-2-1',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      label: 'Level one 3',
-      children: [
-        {
-          label: 'Level two 3-1',
-          children: [
-            {
-              label: 'Level three 3-1-1',
-            },
-          ],
+          name: 'Level two 2-3',
+          id: 'Level two 2-3',
+          selected: false,
+          children: [],
         },
         {
-          label: 'Level two 3-2',
+          name: 'Level two 2-2',
+          id: 'Level two 2-2',
+          selected: false,
           children: [
             {
-              label: 'Level three 3-2-1',
+              name: 'Level three 2-2-1',
+              id: 'Level three 2-2-1',
+              selected: false,
             },
           ],
         },
@@ -84,10 +87,23 @@ const data = ref(
 const test = () => {
   // console.log(wxworksuitetreeRef.value)
   // wxworksuitetreeRef.value.change()
-  console.log(count.value)
-  count.value++
 }
 
+const getValue = () => {
+  console.log(wxworksuitetreeRef.value)
+  // debugger
+  const value = wxworksuitetreeRef.value.getValue()
+  console.log(value)
+}
+
+// const setValue = () => {
+//   console.log(wxworksuitetreeRef.value)
+//   // debugger
+//   wxworksuitetreeRef.value.setValue({
+//     type: type.value === 'departmentName' ? 'userName' : 'departmentName',
+//     openid: openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
+//   })
+// }
 </script>
 
 <style lang="less" scoped>
