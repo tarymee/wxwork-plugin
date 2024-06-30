@@ -7,7 +7,7 @@
   <div class="test-wxworksuite-tree">
     <wxworksuite-tree
       ref="wxworksuitetreeRef"
-      :treedata="treedata"
+      :list="list"
       :expandlevel="expandlevel"
       :ismulselect="ismulselect"
     >
@@ -21,9 +21,10 @@ import { ref, reactive } from 'vue'
 const wxworksuitetreeRef = ref<any>(null)
 
 const ismulselect = ref(false)
+// const ismulselect = ref(true)
 const expandlevel = ref(0)
 
-const treedata = ref(
+const list2 = ref(
   [
     {
       name: 'Level one 1',
@@ -84,9 +85,66 @@ const treedata = ref(
   ]
 )
 
+const listsource = [
+  {
+    id: '0',
+    // name: '中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国',
+    name: '中国',
+    pid: ''
+  },
+  {
+    id: '0-0',
+    name: '广东省',
+    pid: '0'
+  },
+  {
+    id: '0-0-0',
+    name: '广州市',
+    pid: '0-0'
+  },
+  {
+    id: '0-0-1',
+    name: '汕头市',
+    pid: '0-0'
+  },
+  {
+    id: '0-0-2',
+    name: '潮州市',
+    pid: '0-0'
+  },
+  {
+    id: '0-1',
+    name: '北京',
+    pid: '0'
+  },
+  {
+    id: '0-1761',
+    name: '湖南省',
+    pid: '0'
+  },
+  {
+    id: '0-1761-1',
+    name: 'xxx市',
+    pid: '0-1761'
+  },
+  {
+    id: '2',
+    name: '美国',
+    pid: ''
+  },
+  {
+    id: '3',
+    name: '英国',
+    pid: ''
+  },
+]
+
+const list = ref(listsource)
+
 const test = () => {
   // console.log(wxworksuitetreeRef.value)
   // wxworksuitetreeRef.value.change()
+  list.value = listsource
 }
 
 const getValue = () => {
@@ -96,14 +154,9 @@ const getValue = () => {
   console.log(value)
 }
 
-// const setValue = () => {
-//   console.log(wxworksuitetreeRef.value)
-//   // debugger
-//   wxworksuitetreeRef.value.setValue({
-//     type: type.value === 'departmentName' ? 'userName' : 'departmentName',
-//     openid: openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
-//   })
-// }
+const setValue = () => {
+  console.log('setValue')
+}
 </script>
 
 <style lang="less" scoped>
@@ -114,6 +167,9 @@ const getValue = () => {
   margin: 8px 0;
 }
 .test-wxworksuite-tree {
-
+  width: 100%;
+  height: 500px;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
