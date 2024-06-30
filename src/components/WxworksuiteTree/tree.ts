@@ -1,13 +1,10 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
-import { classMap } from 'lit/directives/class-map.js'
-import { styleMap } from 'lit/directives/style-map.js'
+import { property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
 import { cloneDeep } from 'lodash-es'
 import { listToTree } from './utils'
 import { v4 as uuidv4 } from 'uuid'
 
-// @customElement('wxworksuite-tree')
 export default class WxworksuiteTree extends LitElement {
 
   static componentName: string = 'wxworksuite-tree'
@@ -72,6 +69,9 @@ export default class WxworksuiteTree extends LitElement {
   @state()
   protected _map: any = {}
 
+  @state()
+  protected _data: any = {}
+
   willUpdate (changedProperties: any) {
     if (changedProperties.has('list')) {
       this._list = cloneDeep(this.list).map((item: any) => {
@@ -87,16 +87,17 @@ export default class WxworksuiteTree extends LitElement {
       this._list.forEach((item: any) => {
         this._map[item.uuid] = item
       })
+
+      this._data = listToTree(this._list, 'id', 'pid', 'name')
     }
   }
 
-  get _data () {
-    console.error('_data')
-    return listToTree(this._list, 'id', 'pid', 'name')
-  }
+  // get _data () {
+  //   console.error('_data')
+  //   return listToTree(this._list, 'id', 'pid', 'name')
+  // }
 
   updateTemplate () {
-    // this.list = cloneDeep(this.list)
     this._updatepoint = !this._updatepoint
     // this.requestUpdate() // 强制更新
   }
@@ -118,12 +119,26 @@ export default class WxworksuiteTree extends LitElement {
       })
     } else if (e.detail.type === 'check') {
       const checkstate = this._map[e.detail.node.uuid].checkstate
-      if (checkstate === '1') {
-        this._map[e.detail.node.uuid].checkstate = '0'
-      } else if (checkstate === '0') {
-        this._map[e.detail.node.uuid].checkstate = '1'
-      } else if (checkstate === '2') {
-        this._map[e.detail.node.uuid].checkstate = '1'
+      if (this.mulselectmode === 'normal') {
+        
+      } else if (this.mulselectmode === 'individual') {
+        if (checkstate === '1') {
+          this._map[e.detail.node.uuid].checkstate = '0'
+        } else if (checkstate === '0') {
+          this._map[e.detail.node.uuid].checkstate = '1'
+        } else if (checkstate === '2') {
+          this._map[e.detail.node.uuid].checkstate = '1'
+        }
+      } else if (this.mulselectmode === 'disable') {
+
+      } else if (this.mulselectmode === 'shortcut') {
+
+      } else if (this.mulselectmode === 'related') {
+
+      } else if (this.mulselectmode === 'highest') {
+
+      } else {
+        
       }
     }
 

@@ -7,6 +7,7 @@
   <div class="test-wxworksuite-tree">
     <wxworksuite-tree
       ref="wxworksuitetreeRef"
+      :mulselectmode="mulselectmode"
       :list="list"
       :expandlevel="expandlevel"
       :ismulselect="ismulselect"
@@ -20,9 +21,11 @@ import { ref, reactive } from 'vue'
 
 const wxworksuitetreeRef = ref<any>(null)
 
-const ismulselect = ref(false)
-// const ismulselect = ref(true)
+// const ismulselect = ref(false)
+const ismulselect = ref(true)
 const expandlevel = ref(0)
+// const mulselectmode = ref('individual')
+const mulselectmode = ref('noraml')
 
 const list2 = ref(
   [
