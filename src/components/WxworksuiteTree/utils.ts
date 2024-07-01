@@ -1,5 +1,4 @@
-import { cloneDeep } from 'lodash-es'
-// import { v4 as uuidv4 } from 'uuid'
+// import { cloneDeep } from 'lodash-es'
 
 export const listToTree = (data: any[], idkey = 'id', pidkey = 'pid', labelkey = 'name'): any[] => {
   // const cloneData = JSON.parse(JSON.stringify(data))
@@ -12,7 +11,6 @@ export const listToTree = (data: any[], idkey = 'id', pidkey = 'pid', labelkey =
     map.set(d[idkey], true)
     d.id = d[idkey]
     d.name = d[labelkey]
-    // d.uuid = uuidv4()
   })
 
   const rootids: string[] = []

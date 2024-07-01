@@ -1,8 +1,7 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import jssdk from '../../jssdk'
+import { property, state } from 'lit/decorators.js'
+import { repeat } from 'lit/directives/repeat.js'
 
-// @customElement('wxworksuite-opendata')
 export default class WxworksuiteOpendata extends LitElement {
 
   static componentName: string = 'wxworksuite-opendata'
@@ -14,91 +13,122 @@ export default class WxworksuiteOpendata extends LitElement {
 
   static styles = css`
     :host {
-      // display: inline-block;
-      // color: red;
+      /* display: inline-block; */
+      word-spacing: -1em;
     }
   `
 
-  declare openid: string
-  declare type: string
-  declare mode: string
-  declare isCanUseWxworkSuite: boolean
-  static properties = {
-    openid: {
-      type: String
-    },
-    type: {
-      type: String
-    },
-    mode: {
-      type: String // open | close
-    },
-    isCanUseWxworkSuite: {
-      type: Boolean
+  @property({ type: String })
+  openid: string = ''
+
+  @property({ type: String })
+  type: string = '' // userName | departmentName | expression
+
+  @property({ type: String })
+  mode: string = 'close' // open | close
+
+  @state()
+  protected _expressionArr: any[] = []
+
+  get wwbaseopendataRef (): any {
+    return this.renderRoot?.querySelector('wxworksuite-base-opendata') ?? null
+  }
+
+  willUpdate (changedProperties: any) {
+    if (changedProperties.has('openid')) {
+      if (this.type === 'expression') {
+        // this._expressionArr = [
+        //   {
+        //     type: 'userName',
+        //     content: 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA'
+        //   },
+        //   {
+        //     type: 'text',
+        //     content: '545'
+        //   },
+        //   {
+        //     type: 'departmentName',
+        //     content: '6'
+        //   }
+        // ]
+        this._expressionArr = this.getWwValues()
+        console.log(this._expressionArr)
+      } else {
+        this._expressionArr = []
+      }
     }
   }
 
-  constructor () {
-    super()
-    this.openid = ''
-    this.type = ''
-    this.mode = 'close'
-    this.isCanUseWxworkSuite = false
-  }
 
-  // private wwopendataRef: any = null
-  get wwopendataRef () {
-    return this.renderRoot?.querySelector('ww-open-data') ?? null
-  }
+  getWwValues (): any {
+    // let typeReg = /__\$\$wwopendata\(([a-zA-Z0-9]+),\s+([a-zA-Z]+)\)/
+    // let reg = /__\$\$wwopendata\(([a-zA-Z0-9]+)\)/
+    // let typeReg = /__\$\$wwopendata\(([^()\s,]+),\s+([a-zA-Z]+)\)/
+    let reg = /__\$\$wwopendata\(([^()]+)\)/
+    let matcher: any
+    let index = 0
+    let value = this.openid
 
-  async connectedCallback () {
-    super.connectedCallback()
-    // console.log('connectedCallback')
+    const res: any = []
 
-    jssdk.init(['getLocation']).then((res: any) => {
-      this.isCanUseWxworkSuite = true
-      // console.log('window.WWOpenData', window.WWOpenData)
-
-      if (window.WWOpenData && this.wwopendataRef) {
-        window.WWOpenData.bind(this.wwopendataRef)
-        // window.WWOpenData.on('update', update)
-        // window.WWOpenData.on('error', () => {
-        //   console.error('获取数据失败')
-        // })
+    while (
+      (matcher = value.match(reg))
+    ) {
+      let code = ''
+      let openDataType = ''
+      if (matcher[1].includes(',')) {
+        const split = matcher[1].split(',')
+        code = split[0].trim()
+        openDataType = split[1].trim()
+      } else {
+        code = matcher[1]
       }
-    }).catch((err) => {
-      // console.error(err)
-      this.isCanUseWxworkSuite = false
-    })
+
+      if (matcher.index > 0) {
+        res.push({
+          type: 'text',
+          content: value.slice(0, matcher.index)
+        })
+      }
+      value = value.slice(matcher.index + matcher[0].length)
+      res.push({
+        type: openDataType,
+        content: code
+      })
+      index += matcher.index + matcher[0].length
+    }
+    if (index && index < this.openid.length) {
+      res.push({
+        type: 'text',
+        content: this.openid.slice(index)
+      })
+    }
+
+    if (!res.length) {
+      res.push({
+        type: 'text',
+        content: this.openid
+      })
+    }
+
+    return res
   }
 
-  private test (e: Event) {
-    // console.log(this.shadowRoot)
-    // console.log(this.renderRoot)
-    // console.log(this.shadowRoot?.querySelector('#aaaa'))
-    // console.log(this.shadowRoot?.querySelector('ww-open-data'))
-    // debugger
-    const value = this.getValue()
-    console.log(value)
-    this.isCanUseWxworkSuite = !this.isCanUseWxworkSuite
-  }
 
   getValue () {
-    const data: any = {
-      type: this.type,
-      openid: this.openid,
-      name: null
-    }
-
-    if (this.wwopendataRef) {
-      // console.log(this.wwopendataRef)
+    if (this.wwbaseopendataRef) {
+      // console.log(this.wwbaseopendataRef)
       // debugger
-      const name = this.wwopendataRef?.shadowRoot?.innerHTML || ''
-      if (name !== this.openid) {
-        data.name = name
+      const value = this.wwbaseopendataRef.getValue()
+      return value
+    } else {
+      const data: any = {
+        type: this.type,
+        openid: this.openid,
+        name: null
       }
+      return data
     }
-    return data
   }
 
   setValue (obj: any) {
@@ -107,17 +137,37 @@ export default class WxworksuiteOpendata extends LitElement {
   }
 
   render () {
-    // return html`<p>Hello, ${this.foo}!</p>`
-    // console.log(this.openid)
-    // console.log(this.type)
-    // console.log(this.mode)
-    // <button @click="${this.test}">test</button>
-    // ${this.isCanUseWxworkSuite ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid}
-    // ${ this.isCanUseWxworkSuite ? html`true` : 'false' }
     return html`
-      ${ this.isCanUseWxworkSuite ? html`<ww-open-data type="${this.type}" openid="${this.openid}" mode="${this.mode}" />` : this.openid }
+      ${
+        this.type === 'expression'
+        ?
+        html`
+          ${
+            this._expressionArr.length
+            ?
+            html`
+              ${repeat(
+                this._expressionArr,
+                (item: any) => item.content,
+                (item, index) => html`
+                  ${
+                    item.type !== 'text'
+                    ?
+                    html`<wxworksuite-base-opendata type="${item.type}" openid="${item.content}" mode="${this.mode}"></wxworksuite-base-opendata>`
+                    :
+                    // html`<span>${item.content}</span>`
+                    html`${item.content}`
+                  }
+                `
+              )}
+            `
+            :
+            ''
+          }
+        `
+        :
+        html`<wxworksuite-base-opendata type="${this.type}" openid="${this.openid}" mode="${this.mode}"></wxworksuite-base-opendata>`
+      }
     `
   }
 }
-
-// window.customElements.define('wxworksuite-opendata', WxworksuiteOpendata)

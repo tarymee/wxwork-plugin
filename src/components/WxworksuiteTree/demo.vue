@@ -4,89 +4,75 @@
     <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
     <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button>
   </div>
-  <div class="test-wxworksuite-tree">
-    <wxworksuite-tree
-      ref="wxworksuitetreeRef"
-      :mulselectmode="mulselectmode"
-      :list="list"
-      :expandlevel="expandlevel"
-      :ismulselect="ismulselect"
-    >
+  <!-- <div class="test-wxworksuite-tree">
+    <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="iswwopendata" :wwopendatatype="wwopendatatype"
+      :expandicon="expandicon" :mulselectmode="mulselectmode" :list="list" :expandlevel="expandlevel"
+      :ismulselect="ismulselect">
     </wxworksuite-tree>
-  </div>
+  </div> -->
+
+  <div class="" @click="toggleShow">树控件值：{{ treeNode?.name }}</div>
+  <van-popup v-model:show="show" position="bottom" :style="{ height: '80%', zIndex: 9999 }" :lazy-render="false">
+    <div class="widget-tree-popup">
+      <div class="widget-tree-popup-content">
+        <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="wxworksuitetreestate.iswwopendata"
+          :wwopendatatype="wxworksuitetreestate.wwopendatatype" :expandicon="wxworksuitetreestate.expandicon"
+          :mulselectmode="wxworksuitetreestate.mulselectmode" :list="list"
+          :expandlevel="wxworksuitetreestate.expandlevel" :ismulselect="wxworksuitetreestate.ismulselect"
+          @select="handleSelect">
+        </wxworksuite-tree>
+      </div>
+    </div>
+  </van-popup>
+
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 
+const show = ref(false)
+const treeNode = ref(null)
+
+const toggleShow = () => {
+  show.value = !show.value
+}
+
+const handleSelect = () => {
+  treeNode.value = wxworksuitetreeRef.value.getValue('fullvalue')
+  toggleShow()
+}
+
+const getValue = () => {
+  console.log('getValue')
+  // console.log(wxworksuitetreeRef.value)
+  // debugger
+  const value = wxworksuitetreeRef.value.getValue()
+  const name = wxworksuitetreeRef.value.getValue('name')
+  const fullvalue = wxworksuitetreeRef.value.getValue('fullvalue')
+  console.log(value)
+  console.log(name)
+  console.log(fullvalue)
+
+  treeNode.value = fullvalue
+}
+
+const setValue = () => {
+  console.log('setValue')
+  wxworksuitetreeRef.value.setValue('0')
+  getValue()
+}
+
+
 const wxworksuitetreeRef = ref<any>(null)
 
-// const ismulselect = ref(false)
-const ismulselect = ref(true)
-const expandlevel = ref(0)
-// const mulselectmode = ref('individual')
-const mulselectmode = ref('noraml')
-
-const list2 = ref(
-  [
-    {
-      name: 'Level one 1',
-      id: 'Level one 1',
-      selected: true,
-      children: [
-        {
-          name: 'Level two 1-1',
-          id: 'Level two 1-1',
-          selected: false,
-          children: [
-            {
-              name: 'Level three 1-1-1',
-              id: 'Level three 1-1-1',
-              selected: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: 'Level one 2',
-      id: 'Level one 2',
-      selected: false,
-      children: [
-        {
-          name: 'Level two 2-1',
-          id: 'Level two 2-1',
-          selected: false,
-          children: [
-            {
-              name: 'Level three 2-1-1',
-              id: 'Level three 2-1-1',
-              selected: false,
-            },
-          ],
-        },
-        {
-          name: 'Level two 2-3',
-          id: 'Level two 2-3',
-          selected: false,
-          children: [],
-        },
-        {
-          name: 'Level two 2-2',
-          id: 'Level two 2-2',
-          selected: false,
-          children: [
-            {
-              name: 'Level three 2-2-1',
-              id: 'Level three 2-2-1',
-              selected: false,
-            },
-          ],
-        },
-      ],
-    }
-  ]
-)
+const wxworksuitetreestate = reactive({
+  iswwopendata: false, // true | false
+  wwopendatatype: 'departmentName', // departmentName | userName
+  ismulselect: false, // true | false
+  mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
+  expandicon: 'normal', // organization | normal
+  expandlevel: 0
+})
 
 const listsource = [
   {
@@ -142,6 +128,64 @@ const listsource = [
   },
 ]
 
+const listsource2 = [
+  {
+    id: '0',
+    name: '1',
+    iswwopendata: true,
+    wwopendatatype: 'departmentName',
+    pid: ''
+  },
+  {
+    id: '0-0',
+    name: 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA',
+    iswwopendata: true,
+    wwopendatatype: 'userName',
+    pid: '0'
+  },
+  {
+    id: '0-0-0',
+    name: '3',
+    pid: '0-0'
+  },
+  {
+    id: '0-0-1',
+    name: '4',
+    pid: '0-0'
+  },
+  {
+    id: '0-0-2',
+    name: '5',
+    pid: '0-0'
+  },
+  {
+    id: '0-1',
+    name: '6',
+    pid: '0'
+  },
+  {
+    id: '0-1761',
+    name: '5',
+    pid: '0'
+  },
+  {
+    id: '0-1761-1',
+    name: '4',
+    pid: '0-1761'
+  },
+  {
+    id: '2',
+    name: '3',
+    pid: ''
+  },
+  {
+    id: '3',
+    name: '2',
+    pid: ''
+  },
+]
+
+// const list = ref([])
 const list = ref(listsource)
 
 const test = () => {
@@ -150,16 +194,9 @@ const test = () => {
   list.value = listsource
 }
 
-const getValue = () => {
-  console.log(wxworksuitetreeRef.value)
-  // debugger
-  const value = wxworksuitetreeRef.value.getValue()
-  console.log(value)
-}
 
-const setValue = () => {
-  console.log('setValue')
-}
+
+
 </script>
 
 <style lang="less" scoped>
@@ -170,9 +207,30 @@ const setValue = () => {
   margin: 8px 0;
 }
 .test-wxworksuite-tree {
+  background-color: #F6F6F6;
+  // background-color: #Fff;
   width: 100%;
   height: 500px;
+  box-sizing: border-box;
+  padding: 12px;
   flex-direction: column;
   justify-content: center;
+}
+</style>
+
+
+
+<style lang="less">
+.widget-tree-popup {
+  box-sizing: border-box;
+  position: relative;
+  height: 100%;
+  background-color: #F6F6F6;
+  padding: 12px;
+}
+.widget-tree-popup-content {
+  height: 100%;
+  overflow-y: auto;
+  text-align: left;
 }
 </style>

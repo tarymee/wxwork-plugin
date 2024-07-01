@@ -7,7 +7,10 @@
 
   <div class="test-wxworksuite-opendata">
     <wxworksuite-opendata ref="wxworksuiteopendataRef" :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
-    <!-- <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata> -->
+    <!-- <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata>
+    <wxworksuite-opendata :type="type" :openid="openid" mode="open"></wxworksuite-opendata> -->
   </div>
 
   <div class="test">
@@ -20,12 +23,13 @@ import { ref, reactive } from 'vue'
 import jssdk from '../../jssdk'
 
 const wxworksuiteopendataRef = ref<any>(null)
-const show = ref(true)
-const type = ref('userName')
-const openid = ref('woOUQJEAAATELkAo5cgbkznEdBjmtgcA')
+// const type = ref('userName')
+// const openid = ref('woOUQJEAAATELkAo5cgbkznEdBjmtgcA')
+
+const type = ref('expression')
+const openid = ref('__$$wwopendata(woOUQJEAAATELkAo5cgbkznEdBjmtgcA, userName)sfgg/54564__$$wwopendata(6, departmentName)')
 
 const change = async () => {
-  show.value = !show.value
   setTimeout(() => {
     type.value = type.value === 'departmentName' ? 'userName' : 'departmentName'
     openid.value = openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
