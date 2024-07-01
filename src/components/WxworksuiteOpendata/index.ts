@@ -34,6 +34,10 @@ export default class WxworksuiteOpendata extends LitElement {
     return this.renderRoot?.querySelector('wxworksuite-base-opendata') ?? null
   }
 
+  get wwbaseopendataRefs (): any {
+    return this.renderRoot?.querySelectorAll('wxworksuite-base-opendata') ?? null
+  }
+
   willUpdate (changedProperties: any) {
     if (changedProperties.has('openid')) {
       if (this.type === 'expression') {
@@ -51,8 +55,8 @@ export default class WxworksuiteOpendata extends LitElement {
         //     content: '6'
         //   }
         // ]
-        this._expressionArr = this.getWwValues()
-        console.log(this._expressionArr)
+        this._expressionArr = this._getWwValues()
+        // console.log(this._expressionArr)
       } else {
         this._expressionArr = []
       }
@@ -60,7 +64,7 @@ export default class WxworksuiteOpendata extends LitElement {
   }
 
 
-  getWwValues (): any {
+  _getWwValues (): any {
     // let typeReg = /__\$\$wwopendata\(([a-zA-Z0-9]+),\s+([a-zA-Z]+)\)/
     // let reg = /__\$\$wwopendata\(([a-zA-Z0-9]+)\)/
     // let typeReg = /__\$\$wwopendata\(([^()\s,]+),\s+([a-zA-Z]+)\)/
@@ -116,18 +120,51 @@ export default class WxworksuiteOpendata extends LitElement {
 
 
   getValue () {
-    if (this.wwbaseopendataRef) {
-      // console.log(this.wwbaseopendataRef)
-      // debugger
-      const value = this.wwbaseopendataRef.getValue()
-      return value
-    } else {
+    if (this.type === 'expression') {
+      console.log(this.wwbaseopendataRefs)
       const data: any = {
         type: this.type,
         openid: this.openid,
         name: null
       }
-      return data
+      if (this.wwbaseopendataRefs?.length) {
+        // const values = this.wwbaseopendataRefs[0].getValue()
+        // const values = this.wwbaseopendataRefs.map((item: any) => {
+        //   return item.getValue()
+        // })
+        this.wwbaseopendataRefs.forEach((item: any) => {
+          console.log(item.getValue())
+          const value = item.getValue()
+          const sel = this._expressionArr.find((item2) => (item2.type === value.type && item2.content === value.openid))
+          if (sel) {
+            sel.name = value.name
+          }
+        })
+        // console.log(values)
+        const nameValue = this._expressionArr.map((item) => {
+          return item.name || item.content
+        }).join('')
+        if (nameValue) {
+          data.name = nameValue
+        }
+        return data
+      } else {
+        return data
+      }
+    } else {
+      if (this.wwbaseopendataRef) {
+        // console.log(this.wwbaseopendataRef)
+        // debugger
+        const value = this.wwbaseopendataRef.getValue()
+        return value
+      } else {
+        const data: any = {
+          type: this.type,
+          openid: this.openid,
+          name: null
+        }
+        return data
+      }
     }
   }
 
