@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit'
 import { property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-import { classMap } from 'lit/directives/class-map.js'
+// import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { cloneDeep } from 'lodash-es'
 import { listToTree } from './utils'
@@ -81,10 +81,6 @@ export default class WxworksuiteTree extends LitElement {
   @property({ type: String })
   searchplaceholder: string = '请输入关键字搜索'
 
-  // reflect: true
-  @property({ type: Number })
-  expandlevel: number = 0
-
   // normal 父子有关联 共同取值 半选不取
   // individual 父子无关联 各自独立取值
   // disable 父子有关联 不能选非末级节点 取值末级节点
@@ -100,6 +96,9 @@ export default class WxworksuiteTree extends LitElement {
   singleselectmode: string = 'normal'
 
   @property({ type: String })
+  expandmode: string = 'root' // root | no | all
+
+  @property({ type: String })
   expandicon: string = 'normal' // normal | organization
 
   @state()
@@ -108,35 +107,34 @@ export default class WxworksuiteTree extends LitElement {
   @state()
   protected _list: any = []
 
-  // @state()
-  // protected _map: any = {}
-
   @state()
   protected _data: any = {}
 
   willUpdate (changedProperties: any) {
     if (changedProperties.has('list')) {
       this._list = cloneDeep(this.list).map((item: any) => {
+        let isexpand = !!item.isexpand
+        if (this.expandmode === 'all') {
+          isexpand = true
+        } else if (this.expandmode === 'root') {
+          if (!item.pid) {
+            isexpand = true
+          } else {
+            isexpand = false
+          }
+        } else if (this.expandmode === 'no') {
+          isexpand = false
+        }
         return {
           ...item,
           isselected: !!item.isselected,
-          isexpand: !!item.isexpand,
+          isexpand: isexpand,
           checkstate: '0'
         }
       })
-      // this._map = {}
-      // this._list.forEach((item: any) => {
-      //   this._map[item.id] = item
-      // })
-
       this._data = listToTree(this._list, 'id', 'pid', 'name')
     }
   }
-
-  // get _data () {
-  //   console.error('_data')
-  //   return listToTree(this._list, 'id', 'pid', 'name')
-  // }
 
   _updateTemplate () {
     this._updatepoint = !this._updatepoint
@@ -178,7 +176,6 @@ export default class WxworksuiteTree extends LitElement {
     // this._data[0].isselected = !this._data[0].isselected
     // this._data[0].name = this._data[0].name + 'x'
     console.log(this._list)
-    // console.log(this._map)
     console.log(this._data)
   }
 
@@ -329,6 +326,7 @@ export default class WxworksuiteTree extends LitElement {
             })}>
               ${repeat(this._data, (item: any) => item.id, (item, index) => html`
                 <wxworksuite-treenode
+                  expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"
                   .iswwopendata="${this.iswwopendata}"

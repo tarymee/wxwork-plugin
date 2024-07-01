@@ -1,4 +1,3 @@
-// import SpuLoadding from './loadding'
 import WxworksuiteBaseOpendata from './WxworksuiteOpendata/base'
 import WxworksuiteOpendata from './WxworksuiteOpendata'
 import WxworksuiteTest from './WxworksuiteTest'

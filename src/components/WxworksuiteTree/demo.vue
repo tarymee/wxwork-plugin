@@ -6,19 +6,23 @@
   </div>
   <!-- <div class="test-wxworksuite-tree">
     <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="iswwopendata" :wwopendatatype="wwopendatatype"
-      :expandicon="expandicon" :mulselectmode="mulselectmode" :list="list" :expandlevel="expandlevel"
+      :expandicon="expandicon" :mulselectmode="mulselectmode" :list="list" :expandmode="expandmode"
       :ismulselect="ismulselect">
     </wxworksuite-tree>
   </div> -->
 
-  <div class="" @click="toggleShow">树控件值：{{ treeNode?.name }}</div>
+  <div class="" @click="toggleShow">
+    树控件值：
+    {{ treeNode?.name }}
+    <wxworksuite-opendata v-if="treeNode" :openid="treeNode.name" type="departmentName"></wxworksuite-opendata>
+  </div>
   <van-popup v-model:show="show" position="bottom" :style="{ height: '80%', zIndex: 9999 }" :lazy-render="false">
     <div class="widget-tree-popup">
       <div class="widget-tree-popup-content">
         <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="wxworksuitetreestate.iswwopendata"
           :wwopendatatype="wxworksuitetreestate.wwopendatatype" :expandicon="wxworksuitetreestate.expandicon"
           :mulselectmode="wxworksuitetreestate.mulselectmode" :list="list"
-          :expandlevel="wxworksuitetreestate.expandlevel" :ismulselect="wxworksuitetreestate.ismulselect"
+          :expandmode="wxworksuitetreestate.expandmode" :ismulselect="wxworksuitetreestate.ismulselect"
           @select="handleSelect">
         </wxworksuite-tree>
       </div>
@@ -66,15 +70,15 @@ const setValue = () => {
 const wxworksuitetreeRef = ref<any>(null)
 
 const wxworksuitetreestate = reactive({
-  iswwopendata: false, // true | false
+  iswwopendata: true, // true | false
   wwopendatatype: 'departmentName', // departmentName | userName
   ismulselect: false, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
   expandicon: 'normal', // organization | normal
-  expandlevel: 0
+  expandmode: 'root'
 })
 
-const listsource = [
+const listsource2 = [
   {
     id: '0',
     // name: '中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国',
@@ -128,7 +132,7 @@ const listsource = [
   },
 ]
 
-const listsource2 = [
+const listsource = [
   {
     id: '0',
     name: '1',

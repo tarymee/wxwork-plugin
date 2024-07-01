@@ -4,11 +4,6 @@ import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { repeat } from 'lit/directives/repeat.js'
 
-// import icon_right from './img/icon_right.png'
-
-const icon_right = require('./img/icon_right.png')
-console.log(icon_right)
-
 export default class WxworksuiteTreenode extends LitElement {
 
   static componentName: string = 'wxworksuite-treenode'
@@ -135,6 +130,9 @@ export default class WxworksuiteTreenode extends LitElement {
   ismulselect: boolean = false
 
   @property({ type: String })
+  expandmode: string = 'root' // root | no | all
+
+  @property({ type: String })
   expandicon: string = 'normal' // normal | organization
 
   constructor () {
@@ -146,7 +144,7 @@ export default class WxworksuiteTreenode extends LitElement {
   }
 
   private toggle (type: 'expand' | 'select' | 'check') {
-    console.log(type)
+    // console.log(type)
     this.dispatchEvent(new CustomEvent('toggle', {
       bubbles: true,
       composed: true,
@@ -209,9 +207,6 @@ export default class WxworksuiteTreenode extends LitElement {
             }
           </div>
 
-
-
-
           <div
             @click="${this.clickNode}"
             class=${classMap({
@@ -224,7 +219,7 @@ export default class WxworksuiteTreenode extends LitElement {
               ?
               html`
                 <wxworksuite-opendata
-                  type="${(this.iswwopendata && this.wwopendatatype) ? this.wwopendatatype : this.node.wwopendatatype}"
+                  type="${(this.node.iswwopendata && this.node.wwopendatatype) ? this.node.wwopendatatype : this.wwopendatatype}"
                   openid="${this.node.name}"
                 >
                 </wxworksuite-opendata>
@@ -233,7 +228,6 @@ export default class WxworksuiteTreenode extends LitElement {
               html`${this.node.name}`
             }
           </div>
-
 
           ${
             this.ismulselect
@@ -295,6 +289,7 @@ export default class WxworksuiteTreenode extends LitElement {
             html`
               ${repeat(this.node.children, (item: any) => item.id, (item, index) => html`
                 <wxworksuite-treenode
+                  expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"
                   .iswwopendata="${this.iswwopendata}"
@@ -304,27 +299,6 @@ export default class WxworksuiteTreenode extends LitElement {
                 >
                 </wxworksuite-treenode>
               `)}
-              <!--
-              ${
-                this.node?.children?.length
-                ?
-                html`
-                  ${this.node.children.map((item: any) => {
-                    return html`
-                      <wxworksuite-treenode
-                        .node="${item}"
-                        .ismulselect="${this.ismulselect}"
-                        .updatepoint="${this.updatepoint}"
-                        @toggle="${this.handleToggle}"
-                      >
-                      </wxworksuite-treenode>
-                    `
-                  })}
-                `
-                :
-                ''
-              }
-              -->
             `
             :
             ''
