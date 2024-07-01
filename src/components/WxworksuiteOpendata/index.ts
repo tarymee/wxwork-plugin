@@ -133,7 +133,7 @@ export default class WxworksuiteOpendata extends LitElement {
         //   return item.getValue()
         // })
         this.wwbaseopendataRefs.forEach((item: any) => {
-          console.log(item.getValue())
+          // console.log(item.getValue())
           const value = item.getValue()
           const sel = this._expressionArr.find((item2) => (item2.type === value.type && item2.content === value.openid))
           if (sel) {
