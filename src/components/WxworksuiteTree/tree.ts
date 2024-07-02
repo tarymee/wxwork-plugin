@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit'
 import { property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
-// import { classMap } from 'lit/directives/class-map.js'
+import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { cloneDeep } from 'lodash-es'
 import { listToTree } from './utils'
@@ -55,6 +55,8 @@ export default class WxworksuiteTree extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #777;
+      font-size: 14px;
     }
   `
 
@@ -73,7 +75,7 @@ export default class WxworksuiteTree extends LitElement {
   ismulselect: boolean = false
 
   @property({ type: String })
-  displaytype: string = 'h5' // web | h5
+  displaytype: string = 'mobile' // web | mobile
 
   @property({ type: Boolean })
   issearch: boolean = true
@@ -148,6 +150,7 @@ export default class WxworksuiteTree extends LitElement {
 
   _handleToggle (e: any) {
     // console.log(e)
+    e.stopPropagation()
     const type = e.detail.type
     const node = e.detail.node
     if (type === 'expand') {
@@ -170,7 +173,7 @@ export default class WxworksuiteTree extends LitElement {
     }))
   }
 
-  test () {
+  _test () {
     // console.log(this.ismulselect)
     // // this.ismulselect = !this.ismulselect
     // this._data[0].isselected = !this._data[0].isselected
@@ -299,9 +302,13 @@ export default class WxworksuiteTree extends LitElement {
 
   render () {
     return html`
-      <div class="tree">
-        <!-- <button class="demo" @click="${this.test}">
-          test
+      <div class=${classMap({
+        'tree': true,
+        'tree-web': this.displaytype === 'web',
+        'tree-mobile': this.displaytype === 'mobile'
+      })}>
+        <!-- <button class="demo" @click="${this._test}">
+          _test
           ${this.ismulselect}
         </button> -->
 
@@ -326,6 +333,7 @@ export default class WxworksuiteTree extends LitElement {
             })}>
               ${repeat(this._data, (item: any) => item.id, (item, index) => html`
                 <wxworksuite-treenode
+                  displaytype="${this.displaytype}"
                   expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"

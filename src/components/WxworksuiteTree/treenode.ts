@@ -23,6 +23,7 @@ export default class WxworksuiteTreenode extends LitElement {
       /* border-radius: 10px; */
       background: #fff;
     }
+    .tree-node-web {}
     .tree-node-line {
       display: flex;
       width: 100%;
@@ -112,6 +113,9 @@ export default class WxworksuiteTreenode extends LitElement {
 
   `
 
+  @property({ type: String })
+  displaytype: string = 'mobile' // web | mobile
+
   @property({ type: Object })
   node: any = {}
 
@@ -181,7 +185,11 @@ export default class WxworksuiteTreenode extends LitElement {
   // children ismulselect: ${this.ismulselect}
   render () {
     return html`
-      <div class="tree-node">
+      <div class=${classMap({
+        'tree-node': true,
+        'tree-node-web': this.displaytype === 'web',
+        'tree-node-mobile': this.displaytype === 'mobile'
+      })}>
         <div class="tree-node-line" tabindex="-1" class=${classMap({
           'tree-node-line': true,
           'tree-node-line-select': this.node.isselected
@@ -289,6 +297,7 @@ export default class WxworksuiteTreenode extends LitElement {
             html`
               ${repeat(this.node.children, (item: any) => item.id, (item, index) => html`
                 <wxworksuite-treenode
+                  displaytype="${this.displaytype}"
                   expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"

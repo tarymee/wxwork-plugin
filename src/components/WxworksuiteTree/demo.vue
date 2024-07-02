@@ -72,16 +72,17 @@ const wxworksuitetreeRef = ref(null)
 const wxworksuitetreestate = reactive({
   iswwopendata: true, // true | false
   wwopendatatype: 'departmentName', // departmentName | userName
-  ismulselect: false, // true | false
+  ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
   expandicon: 'normal', // organization | normal
   expandmode: 'root'
 })
 
-const listsource2 = [
+const listsource = [
   {
     id: '0',
     // name: '中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国',
+    // name: '庄焕滨（全权限-勿删）',
     name: '中国',
     pid: ''
   },
@@ -132,7 +133,7 @@ const listsource2 = [
   },
 ]
 
-const listsource = [
+const listsource2 = [
   {
     id: '0',
     name: '1',

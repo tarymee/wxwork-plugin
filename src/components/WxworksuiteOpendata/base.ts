@@ -32,7 +32,6 @@ export default class WxworksuiteBaseOpendata extends LitElement {
   @state()
   protected _isCanUseWxworkSuite = true
 
-  // private wwopendataRef: any = null
   get wwopendataRef () {
     return this.renderRoot?.querySelector('ww-open-data') ?? null
   }

@@ -6,6 +6,7 @@ import WxworksuiteTree from './WxworksuiteTree/tree'
 import WxworksuiteTreenode from './WxworksuiteTree/treenode'
 import WxworksuiteLoadding from './WxworksuiteLoadding'
 import WxworksuiteMemberpick from './WxworksuiteMemberpick'
+import WxworksuiteOrganizationpickMobile from './WxworksuiteOrganizationpickMobile'
 
 const components: any = {
   WxworksuiteBaseOpendata,
@@ -15,6 +16,7 @@ const components: any = {
   WxworksuiteTree,
   WxworksuiteTreenode,
   WxworksuiteMemberpick,
+  WxworksuiteOrganizationpickMobile,
   WxworksuiteLoadding
 }
 
