@@ -22,7 +22,7 @@
         <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="wxworksuitetreestate.iswwopendata"
           :wwopendatatype="wxworksuitetreestate.wwopendatatype" :expandicon="wxworksuitetreestate.expandicon"
           :mulselectmode="wxworksuitetreestate.mulselectmode" :list="list"
-          :expandmode="wxworksuitetreestate.expandmode" :ismulselect="wxworksuitetreestate.ismulselect"
+          :expandmode="wxworksuitetreestate.expandmode" :ismulselect="wxworksuitetreestate.ismulselect" :displaytype="wxworksuitetreestate.displaytype"
           @select="handleSelect">
         </wxworksuite-tree>
       </div>
@@ -34,7 +34,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 
-const show = ref(false)
+// const show = ref(false)
+const show = ref(true)
 const treeNode = ref(null)
 
 const toggleShow = () => {
@@ -72,6 +73,7 @@ const wxworksuitetreeRef = ref(null)
 const wxworksuitetreestate = reactive({
   iswwopendata: true, // true | false
   wwopendatatype: 'departmentName', // departmentName | userName
+  displaytype: 'mobile', // web | mobile
   ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
   expandicon: 'normal', // organization | normal
@@ -81,9 +83,9 @@ const wxworksuitetreestate = reactive({
 const listsource = [
   {
     id: '0',
-    // name: '中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国',
+    name: '中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国中国',
     // name: '庄焕滨（全权限-勿删）',
-    name: '中国',
+    // name: '中国',
     pid: ''
   },
   {

@@ -44,7 +44,7 @@ export default class WxworksuiteTree extends LitElement {
       font-size: 14px;
       padding: 0 12px;
       color: #999999;
-      box-shadow: 0px 0px 2px #ddd;
+      /* box-shadow: 0px 0px 2px #ddd; */
     }
     .tree-con {
       overflow-y: auto;
