@@ -31,7 +31,7 @@
 
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref, reactive } from 'vue'
 
 const show = ref(false)
@@ -67,7 +67,7 @@ const setValue = () => {
 }
 
 
-const wxworksuitetreeRef = ref<any>(null)
+const wxworksuitetreeRef = ref(null)
 
 const wxworksuitetreestate = reactive({
   iswwopendata: true, // true | false
@@ -197,10 +197,6 @@ const test = () => {
   // wxworksuitetreeRef.value.change()
   list.value = listsource
 }
-
-
-
-
 </script>
 
 <style lang="less" scoped>

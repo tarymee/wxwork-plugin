@@ -1,4 +1,5 @@
 import { apaasAxios as axios } from './axios'
+import { isInAppWxwork } from './utils'
 
 class Jssdk {
   public isHack = false
@@ -165,12 +166,15 @@ class Jssdk {
       }
 
       if (!this.isLoadJs) {
-        await this.loadJsUrl('//res.wx.qq.com/open/js/jweixin-1.2.0.js', {
-          referrerpolicy: 'origin'
-        })
-        // await this.loadJsUrl('//res.wx.qq.com/wwopen/js/jsapi/jweixin-1.0.0.js', {
-        //   referrerpolicy: 'origin'
-        // })
+        if (isInAppWxwork()) {
+          await this.loadJsUrl('//res.wx.qq.com/wwopen/js/jsapi/jweixin-1.0.0.js', {
+            referrerpolicy: 'origin'
+          })
+        } else {
+          await this.loadJsUrl('//res.wx.qq.com/open/js/jweixin-1.2.0.js', {
+            referrerpolicy: 'origin'
+          })
+        }
         await this.loadJsUrl('//open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js', {
           referrerpolicy: 'origin'
         })

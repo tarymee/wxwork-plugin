@@ -18,16 +18,14 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref, reactive } from 'vue'
-import jssdk from '../../jssdk'
+// import jssdk from '../../jssdk'
+import { jssdk } from '@smart100/wxworksuite-plugin'
 
-const wxworksuiteopendataRef = ref<any>(null)
-// const type = ref('userName')
-// const openid = ref('woOUQJEAAATELkAo5cgbkznEdBjmtgcA')
-
-const type = ref('expression')
-const openid = ref('__$$wwopendata(woOUQJEAAATELkAo5cgbkznEdBjmtgcA, userName)sfgg/54564__$$wwopendata(6, departmentName)')
+const wxworksuiteopendataRef = ref(null)
+const type = ref('userName')
+const openid = ref('woOUQJEAAATELkAo5cgbkznEdBjmtgcA')
 
 const change = async () => {
   setTimeout(() => {
@@ -47,10 +45,13 @@ const setValue = () => {
   console.log(wxworksuiteopendataRef.value)
   // debugger
   wxworksuiteopendataRef.value.setValue({
-    type: type.value === 'departmentName' ? 'userName' : 'departmentName',
-    openid: openid.value === '6' ? 'woOUQJEAAATELkAo5cgbkznEdBjmtgcA' : '6'
+    type: 'expression',
+    openid: '__$$wwopendata(woOUQJEAAATELkAo5cgbkznEdBjmtgcA, userName)/__$$wwopendata(6, departmentName)'
   })
 }
+
+
+
 
 const getLocation = () => {
   jssdk.init(['getLocation', 'openUserProfile']).then((res) => {
