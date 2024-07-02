@@ -69,7 +69,7 @@ export default class WxworksuiteTree extends LitElement {
 
   // 控制通信录转移类型
   @property({ type: String })
-  wwopendatatype: string = '' // userName | departmentName
+  wwopendatatype: string = '' // userName | departmentName | express
 
   @property({ type: Boolean })
   ismulselect: boolean = false
