@@ -5,9 +5,9 @@
   </div>
 
   <div class="tree-form" @click="singleToggleShow">
-    <div class="tree-form-l">人员单选：</div>
+    <div class="tree-form-l">营销组织单选：</div>
     <div class="tree-form-r">
-      <wxworksuite-opendata v-if="singleNode" :openid="singleNode.name" type="expression" />
+      <wxworksuite-opendata v-if="singleNode" :openid="singleNode.name" type="departmentName" />
       <div v-else>
         请选择
       </div>
@@ -16,11 +16,10 @@
 
   <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
     <div class="tree-popup">
-      <wxworksuite-memberpick-mobile ref="singleRef" @select="singleHandleSelect" />
+      <!-- <wxworksuite-organizationpick-mobile ref="singleRef" @select="singleHandleSelect" /> -->
+      <wxworksuite-organizationpick-web ref="singleRef" @select="singleHandleSelect" />
     </div>
   </van-popup>
-
-
 
 
 
@@ -34,11 +33,11 @@
   </div>
 
   <div class="tree-form" @click="mulToggleShow">
-    <div class="tree-form-l">人员多选：</div>
+    <div class="tree-form-l">营销组织多选：</div>
     <div class="tree-form-r">
       <template v-if="mulNode && mulNode.length">
         <van-tag v-for="(item, index) in mulNode" :key="index" plain type="primary" closeable @close="mulRemove(item)">
-          <wxworksuite-opendata :openid="item.name" type="expression" />
+          <wxworksuite-opendata :openid="item.name" type="departmentName" />
         </van-tag>
       </template>
       <div v-else>
@@ -49,7 +48,7 @@
 
   <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
     <div class="tree-popup" style="height: calc(100% - 80px)">
-      <wxworksuite-memberpick-mobile ref="mulRef" ismulselect="{{ true }}" />
+      <wxworksuite-organizationpick-mobile ref="mulRef" ismulselect="{{ true }}" />
     </div>
     <div class="tree-popup-btn">
       <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>
@@ -75,11 +74,6 @@ const singleHandleSelect = () => {
   singleToggleShow()
 }
 
-const singleSetValue = () => {
-  singleRef.value.setValue('1806591895317917696')
-  singleSyncValue()
-}
-
 const singleGetValue = () => {
   const id = singleRef.value.getValue()
   const name = singleRef.value.getValue('name')
@@ -94,6 +88,14 @@ const singleSyncValue = () => {
   console.log(fullvalue)
   singleNode.value = fullvalue
 }
+
+const singleSetValue = () => {
+  singleRef.value.setValue('1803686397149065216')
+  singleSyncValue()
+}
+
+
+
 
 
 
@@ -128,7 +130,7 @@ const mulSyncValue = () => {
 }
 
 const mulSetValue = () => {
-  mulRef.value.setValue(['1806591895317917696', '1806591879895461888'])
+  mulRef.value.setValue(['1803686397149065216'])
   mulSyncValue()
 }
 
@@ -138,6 +140,7 @@ const mulRemove = (item) => {
   mulRef.value.setCheck(item.id, false)
   mulSyncValue()
 }
+
 
 const mulCancel = () => {
   console.log('取消')
@@ -150,7 +153,7 @@ const mulCancel = () => {
 
 const mulComfirm = () => {
   console.log('确定')
-  mulGetValue()
+  mulSyncValue()
   mulToggleShow()
 }
 </script>

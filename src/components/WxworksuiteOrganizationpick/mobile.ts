@@ -4,12 +4,12 @@ import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { apaasAxios as axios } from '../../axios'
 
-export default class WxworksuiteMemberpickMobile extends LitElement {
+export default class WxworksuiteOrganizationpickMobile extends LitElement {
 
-  static componentName: string = 'wxworksuite-memberpick-mobile'
+  static componentName: string = 'wxworksuite-organizationpick-mobile'
   static register () {
-    if (!window.customElements.get(WxworksuiteMemberpickMobile.componentName)) {
-      window.customElements.define(WxworksuiteMemberpickMobile.componentName, WxworksuiteMemberpickMobile)
+    if (!window.customElements.get(WxworksuiteOrganizationpickMobile.componentName)) {
+      window.customElements.define(WxworksuiteOrganizationpickMobile.componentName, WxworksuiteOrganizationpickMobile)
     }
   }
 
@@ -20,6 +20,9 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
       height: 100%;
     }
   `
+
+  @property({ type: String })
+  displaytype: string = 'mobile'
 
   @property({ type: Boolean })
   ismulselect: boolean = false
@@ -43,24 +46,18 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
 
   constructor () {
     super()
-    axios.post('/api/teapi/dy-biz/1032470355689738336/1273067686762516579', {
-      member: {
-        searchkey: '',
-        orglimit: '',
-        orgstructid: '',
-        email: '',
-        includechild: '1'
+    axios.post('/api/teapi/dy-biz/100000000000000000/110000000000000000', {
+      pl_orgstruct: {
+        status: '1'
       }
     }).then((res: any) => {
       // console.log(res)
-      const list = res?.data?.member || []
+      const list = res?.data?.pl_orgstruct || []
       list.forEach((item: any) => {
-        // item.name = `__$$wwopendata(${item.open_user_id}, userName)(${item.positionname})`
-        item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})`
-        item.id = item.memberid
-        item.pid = ''
-        item.iswwopendata = true
-        item.wwopendatatype = 'expression'
+        item.name = item.orgname
+        // item.name = '1'
+        item.id = item.orgstructid
+        item.pid = item.parentorgstructid
       })
       this._list = list
     })
@@ -70,7 +67,7 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     return this.renderRoot?.querySelector('wxworksuite-tree') ?? null
   }
 
-  private _handleCheck (e: any) {
+  protected _handleCheck (e: any) {
     // console.log('_handleCheck')
     // console.log(e)
     e.stopPropagation()
@@ -84,7 +81,7 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     }))
   }
 
-  private _handleSelect (e: any) {
+  protected _handleSelect (e: any) {
     // console.log('_handleSelect')
     // console.log(e)
     e.stopPropagation()
@@ -118,8 +115,8 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
   render () {
     return html`
       <wxworksuite-tree
-        wwopendatatype="expression"
-        displaytype="mobile"
+        wwopendatatype="departmentName"
+        displaytype="${this.displaytype}"
         expandicon="organization"
         .iswwopendata="${true}"
         .list="${this._list}"
