@@ -3,7 +3,7 @@ import { property, state } from 'lit/decorators.js'
 import { repeat } from 'lit/directives/repeat.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, debounce } from 'lodash-es'
 import { listToTree } from './utils'
 
 export default class WxworksuiteTree extends LitElement {
@@ -30,21 +30,35 @@ export default class WxworksuiteTree extends LitElement {
       position: relative;
     }
     .tree-search {
-      width: 100%;
-      box-sizing: border-box;
-      /* position: absolute;
-      top: 8px; */
       margin: 8px 0;
       border: 1px solid #F6F6F6;
       background-color: #FFF;
       overflow: hidden;
       border-radius: 16px;
-      height: 32px;
-      line-height: 32px;
+      height: 30px;
+      line-height: 30px;
       font-size: 14px;
-      padding: 0 12px;
+      padding: 0 12px 0 28px;
       color: #999999;
+      background-size: 16px 16px;
+      background-position: 8px center;
+      background-repeat: no-repeat;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAXpQTFRFAAAAAAAA////qqqqv7+/mZmZqqqqn5+fjo6OmZmZlZWVnZ2dkpKSpKSkmZmZlJSUmZmZm5ubnZ2dl5eXm5ubnJycm5ubmJiYmpqalpaWnZ2dmZmZm5ubmZmZmZmZlpaWmpqam5ubmpqamZmZmJiYl5eXmZmZnJycmpqal5eXmJiYmpqam5ubl5eXmpqamJiYmpqamZmZmpqamZmZmpqamZmZmJiYmZmZnJycmZmZmZmZmpqamZmZmpqamZmZmpqamJiYmpqamZmZmZmZmZmZmZmZmpqamZmZmpqampqamZmZmJiYmZmZmZmZmpqampqamZmZmJiYmZmZmJiYmZmZmZmZmJiYmZmZmpqamZmZmJiYmZmZmZmZmpqamZmZmZmZmpqamZmZmpqamZmZmZmZmZmZmZmZmJiYmZmZmpqamZmZmZmZmpqamZmZmZmZmZmZmZmZmZmZmZmZmZmZmJiYmZmZmZmZmZmZmJiYmZmZmZmZmZmZmpqamZmZU/9+bQAAAH10Uk5TAAEBAwQFBggJCgwNDg4PExQXGhscHyElJicnKCktMjM1ODo8PkBBQ0RHSElKTExNTlBRVVtfYWRkZmlqbG1ub4aLjI+WmJ+goaasrrGys7W3uLm6u7y9wcTFx8vMzM7P0dXW2dve3+Lj4+Tl5ezv8PHy8/X29/n6+/z9/v4sOdMfAAABK0lEQVQYGc3BVztCAQAG4E9DhJSVkZkR2SHK3nuPZJ1Qtsg4re+/6/FIZ9CVC++LP6UtbWgs1+M3jsUHpkSWXRr8wLZHxoTN9ZM38tQOlZ4nhtzFSDG6zih6oNAZS07n4otmIsoxyFSG6YFEhxhthdQGZyDj5bkWGXbe5kHOzyFkzHIcCk7uIuMmUQYFfVgsQloBQ1DZYR3SqngIlQV2Ia2aPqjMsxtphQxCZZv1+HaXKIGC7lE04dscR6HQzn1kNPPKADkfhyGxxSnIjDCoh4TtOemGhOM93gaZ3nhiUo8vOV6R9xbI9Ud4OWhCSl7fEWPXDFggV3tAiserK/4X8qLFLDBggYJzKcyU17UBLWAWGLBASVfR1Gw14JNZYMCIbMxCvAZZ5VvxX3wAF7lDHio0PxcAAAAASUVORK5CYII=);
       /* box-shadow: 0px 0px 2px #ddd; */
+    }
+    .tree-search input {
+      /* display: none; */
+      background-color: #FFF;
+      line-height: 30px;
+      height: 30px;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .tree-search input:focus {
+      /* outline: none; */
     }
     .tree-con {
       overflow-y: auto;
@@ -108,6 +122,12 @@ export default class WxworksuiteTree extends LitElement {
 
   @state()
   protected _list: any = []
+
+  @state()
+  protected _searchlist: any = []
+
+  @state()
+  protected _searchvalue: string = ''
 
   @state()
   protected _data: any = {}
@@ -242,6 +262,29 @@ export default class WxworksuiteTree extends LitElement {
     })
   }
 
+  get _inputRef () {
+    return this.renderRoot?.querySelector('input') ?? null
+  }
+
+  _hanldeSearch = debounce((e) => {
+    console.log('_hanldeSearch')
+    // console.log(e)
+    // console.log(this)
+    // console.log(this._inputRef)
+    console.log(this._inputRef.value)
+    this._searchvalue = this?._inputRef?.value || ''
+    if (this._searchvalue) {
+      this._searchlist = this._list
+    } else {
+      this._searchlist = []
+    }
+  }, 300)
+
+  // _hanldeSearch (e: any) {
+  //   console.log('_hanldeSearch')
+  //   console.log(e)
+  // }
+
   getValue (type: 'id' | 'name' | 'fullvalue' = 'id') {
     if (this.ismulselect) {
       let arr = this._list.filter((item: any) => item.checkstate === '1')
@@ -321,7 +364,7 @@ export default class WxworksuiteTree extends LitElement {
           ?
           html`
             <div class="tree-search">
-              ${this.searchplaceholder}
+              <input placeholder=${this.searchplaceholder} value=${this._searchvalue} @input=${this._hanldeSearch} />
             </div>
           `
           :
@@ -335,21 +378,59 @@ export default class WxworksuiteTree extends LitElement {
             <div class="tree-con" style=${styleMap({
               height: this.issearch ? 'calc(100% - 48px)' : '100%',
             })}>
-              ${repeat(this._data, (item: any) => item.id, (item, index) => html`
-                <wxworksuite-treenode
-                  displaytype="${this.displaytype}"
-                  expandmode="${this.expandmode}"
-                  expandicon="${this.expandicon}"
-                  .node="${item}"
-                  .isonelevel="${this._isonelevel}"
-                  .iswwopendata="${this.iswwopendata}"
-                  wwopendatatype="${this.wwopendatatype}"
-                  .ismulselect="${this.ismulselect}"
-                  .updatepoint="${this._updatepoint}"
-                  @toggle="${this._handleToggle}"
-                >
-                </wxworksuite-treenode>
-              `)}
+              ${
+                this?._searchlist?.length
+                ?
+                html`
+                  ${
+                    repeat(
+                      this._searchlist,
+                      (item: any) => item.id,
+                      (item, index) => html`
+                        <wxworksuite-treenode
+                          displaytype="${this.displaytype}"
+                          expandmode="${this.expandmode}"
+                          expandicon="${this.expandicon}"
+                          .node="${item}"
+                          .isonelevel="${true}"
+                          .isrenderchildren="${false}"
+                          .iswwopendata="${this.iswwopendata}"
+                          wwopendatatype="${this.wwopendatatype}"
+                          .ismulselect="${this.ismulselect}"
+                          .updatepoint="${this._updatepoint}"
+                          @toggle="${this._handleToggle}"
+                        >
+                      </wxworksuite-treenode>
+                      `
+                    )
+                  }
+                `
+                :
+                html`
+                  ${
+                    repeat(
+                      this._data,
+                      (item: any) => item.id,
+                      (item, index) => html`
+                        <wxworksuite-treenode
+                          displaytype="${this.displaytype}"
+                          expandmode="${this.expandmode}"
+                          expandicon="${this.expandicon}"
+                          .node="${item}"
+                          .isonelevel="${this._isonelevel}"
+                          .isrenderchildren="${true}"
+                          .iswwopendata="${this.iswwopendata}"
+                          wwopendatatype="${this.wwopendatatype}"
+                          .ismulselect="${this.ismulselect}"
+                          .updatepoint="${this._updatepoint}"
+                          @toggle="${this._handleToggle}"
+                        >
+                      </wxworksuite-treenode>
+                      `
+                    )
+                  }
+                `
+              }
             </div>
           `
           :

@@ -164,6 +164,9 @@ export default class WxworksuiteTreenode extends LitElement {
   @property({ type: Boolean })
   isonelevel: boolean = true
 
+  @property({ type: Boolean })
+  isrenderchildren: boolean = true
+
   @property({ type: Object })
   node: any = {}
 
@@ -256,7 +259,7 @@ export default class WxworksuiteTreenode extends LitElement {
                 display: this.isonelevel ? 'none' : 'block',
               })}>
                 ${
-                  this.node?.children?.length
+                  this.node?.children?.length && this.isrenderchildren
                   ?
                   html`
                     <div
@@ -325,7 +328,7 @@ export default class WxworksuiteTreenode extends LitElement {
                 display: this.isonelevel ? 'none' : 'block',
               })}>
                 ${
-                  this.node?.children?.length
+                  this.node?.children?.length && this.isrenderchildren
                   ?
                   html`
                     <div
@@ -348,35 +351,43 @@ export default class WxworksuiteTreenode extends LitElement {
 
         </div>
 
-        <div
-          class="tree-node-children"
-          style=${styleMap({
-            display: !this.node.isexpand ? 'none' : 'block',
-          })}
-        >
-          ${
-            this.node?.children?.length
-            ?
-            html`
-              ${repeat(this.node.children, (item: any) => item.id, (item, index) => html`
-                <wxworksuite-treenode
-                  displaytype="${this.displaytype}"
-                  expandmode="${this.expandmode}"
-                  expandicon="${this.expandicon}"
-                  .node="${item}"
-                  .isonelevel="${this.isonelevel}"
-                  .iswwopendata="${this.iswwopendata}"
-                  wwopendatatype="${this.wwopendatatype}"
-                  .ismulselect="${this.ismulselect}"
-                  .updatepoint="${this.updatepoint}"
-                >
-                </wxworksuite-treenode>
-              `)}
-            `
-            :
-            ''
-          }
-        </div>
+
+        ${
+          this.node?.children?.length && this.isrenderchildren
+          ?
+          html`
+            <div
+              class="tree-node-children"
+              style=${styleMap({
+                display: !this.node.isexpand ? 'none' : 'block',
+              })}
+            >
+              ${
+                repeat(
+                  this.node.children,
+                  (item: any) => item.id,
+                  (item, index) => html`
+                    <wxworksuite-treenode
+                      displaytype="${this.displaytype}"
+                      expandmode="${this.expandmode}"
+                      expandicon="${this.expandicon}"
+                      .node="${item}"
+                      .isonelevel="${this.isonelevel}"
+                      .isrenderchildren="${this.isrenderchildren}"
+                      .iswwopendata="${this.iswwopendata}"
+                      wwopendatatype="${this.wwopendatatype}"
+                      .ismulselect="${this.ismulselect}"
+                      .updatepoint="${this.updatepoint}"
+                    >
+                    </wxworksuite-treenode>
+                  `
+                )
+              }
+            </div>
+          `
+          :
+          ''
+        }
       </div>
     `
   }

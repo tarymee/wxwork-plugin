@@ -73,7 +73,7 @@ const wxworksuitetreeRef = ref(null)
 const wxworksuitetreestate = reactive({
   iswwopendata: false, // true | false
   wwopendatatype: 'departmentName', // departmentName | userName
-  displaytype: 'web', // web | mobile
+  displaytype: 'mobile', // web | mobile
   ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
   expandicon: 'organization', // organization | normal
@@ -200,6 +200,7 @@ const test = () => {
   // wxworksuitetreeRef.value.change()
   list.value = listsource
 }
+
 </script>
 
 <style lang="less" scoped>
