@@ -25,8 +25,29 @@ const WxworksuitePluginInstall = (options: any) => {
   }
 }
 
+// 是否企微软件内 包括电脑端和APP端
+const isWxwork = () => {
+  return navigator.userAgent.indexOf('wxwork') >= 0
+}
+
+// 是否在电脑端企微软件内
+const isWxworkPc = () => {
+  return isWxwork() && navigator.userAgent.indexOf('Mobile') === -1
+}
+
+// 是否在企微APP内
+const isWxworkApp = () => {
+  return isWxwork() && navigator.userAgent.indexOf('Mobile') >= 0
+}
+
+const isWxworkSuiteTenant = jssdk.checkData.bind(jssdk)
+
 export {
   // version
   WxworksuitePluginInstall,
-  jssdk
+  jssdk,
+  isWxworkSuiteTenant,
+  isWxwork,
+  isWxworkPc,
+  isWxworkApp
 }
