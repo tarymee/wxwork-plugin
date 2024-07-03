@@ -112,6 +112,9 @@ export default class WxworksuiteTree extends LitElement {
   @state()
   protected _data: any = {}
 
+  @state()
+  protected _isonelevel = true
+
   willUpdate (changedProperties: any) {
     if (changedProperties.has('list')) {
       this._list = cloneDeep(this.list).map((item: any) => {
@@ -135,6 +138,8 @@ export default class WxworksuiteTree extends LitElement {
         }
       })
       this._data = listToTree(this._list, 'id', 'pid', 'name')
+
+      this._isonelevel = this._data.every((item: any) => !item?.children?.length)
     }
   }
 
@@ -146,7 +151,6 @@ export default class WxworksuiteTree extends LitElement {
   _findNode (id: any) {
     return this._list.find((item: any) => item.id === id)
   }
-
 
   _handleToggle (e: any) {
     // console.log(e)
@@ -337,6 +341,7 @@ export default class WxworksuiteTree extends LitElement {
                   expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"
+                  .isonelevel="${this._isonelevel}"
                   .iswwopendata="${this.iswwopendata}"
                   wwopendatatype="${this.wwopendatatype}"
                   .ismulselect="${this.ismulselect}"

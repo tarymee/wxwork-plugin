@@ -71,12 +71,12 @@ const setValue = () => {
 const wxworksuitetreeRef = ref(null)
 
 const wxworksuitetreestate = reactive({
-  iswwopendata: true, // true | false
+  iswwopendata: false, // true | false
   wwopendatatype: 'departmentName', // departmentName | userName
-  displaytype: 'mobile', // web | mobile
+  displaytype: 'web', // web | mobile
   ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
-  expandicon: 'normal', // organization | normal
+  expandicon: 'organization', // organization | normal
   expandmode: 'root'
 })
 

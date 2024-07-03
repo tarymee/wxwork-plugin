@@ -34,12 +34,14 @@ export default class WxworksuiteTreenode extends LitElement {
       cursor: pointer;
       box-sizing: border-box;
       border-bottom: 1px solid #F6F6F6;
+      padding: 0 12px
     }
     .tree-node-web .tree-node-line {
       font-size: 14px;
       height: 32px;
       line-height: 32px;
       border-bottom: none;
+      padding: 0 8px
     }
     .tree-node-line-select {
       background-color: rgba(000, 000, 000, 0.2);
@@ -54,6 +56,23 @@ export default class WxworksuiteTreenode extends LitElement {
     //   background-color: rgba(000, 000, 000, 0.1);
     // }
 
+
+
+    .tree-node-org {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      background-size: 16px 16px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAAXNSR0IArs4c6QAAAQtQTFRFAAAAAID/Inf/Ioj/G4b/F4D/H3r/H4X/HYD/HHv/HIT/G4D/Gn//GYT/GID/F3z/FoP/HXz/HIP/G4D/GoP/GYP/GIL/HID/G4L/GYL/HIL/G4T/G4H/G4X/GoP/GYH/GYP/GoT/GoP/GYT/GoL/GoL/GYX/GYP/GoT/GoP/GYT/GoT/GoT/GoP/GoX/GoX/GoT/GYT/GoT/GYT/GoX/GoX/GYX/GoX/GYX/GYX/GoX/GoX/GoX/GoX/GYX/GYT/GYX/GoX/GoX/GYX/GYX/GoX/GoT/GoX/GYb/GoX/GoX/GoX/GYT/GYX/GoX/GYT/GoX/GoX/GoX/GoX/GoX/GYX/GoX/GoX/GoX/qs3FVQAAAFh0Uk5TAAQPDxMWGRkaGxscHh8gISMjJSYnKSsuLzM3OEFDRkdITU5TWFpcZWxtcHh+iIibnKKmrK60uLq+wMHGx8/T1NXX293e4eLj6evs7vHx8fP19vf4+fz9/ho458UAAAE2SURBVEjH7ZbXVoNAEIYXEmCjsRFRwJ7Ye+911RhLFIwG3v9JpIUzuBJ3LvQq3+U/++2ew3DODCEBkqyo9BdURZZIQkGjQmiF+HyRClOM7qcIgjckDSNoEpEpCpkoOEEhKk5QCRf17Th+wvv+IFfmhSUfsCYgbEBhS0DYhMJ2T/gLQaQPK1BYFxDKh17nePt4RECgtGKa5t2tYRjDPxRJzm/MWE7huzC7e3Ia4rjnIWd7k92F6sfna4Z2a6qrcPQ2kQ2mvYM8oTQWwK4syxroREO2bbcudV2v9PPCwlP68d3VOFp20+h5kRPqoF1OOXqyCaIHToD99c0wGc1EPeF/BA9WxznB44QbUH0sRVEDRIwTZi5emgnXtTiav0/vZ3OpgB4o6JGFHorosYse7PjVAb+c4NafL0Vh7eZJslu0AAAAAElFTkSuQmCC);
+    }
+    .tree-node-web .tree-node-org {
+      width: 20px;
+      height: 20px;
+      background-size: 14px 14px;
+    }
+
     .tree-node-expand {
       flex: none;
       width: 24px;
@@ -63,11 +82,11 @@ export default class WxworksuiteTreenode extends LitElement {
       width: 20px;
       height: 20px;
     }
-    .tree-node-expand-right {
-      margin-right: 8px;
+    .tree-node-expand-left {
+      /* margin-left: 8px; */
     }
-    .tree-node-web .tree-node-expand-right {
-      margin-right: 4px;
+    .tree-node-web .tree-node-expand-left {
+      /* margin-left: 4px; */
     }
 
     .tree-node-expand-1 {
@@ -98,19 +117,7 @@ export default class WxworksuiteTreenode extends LitElement {
       height: 20px;
       background-size: 8px 8px;
     }
-    .tree-node-expand-org {
-      width: 24px;
-      height: 24px;
-      background-size: 16px 16px;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAAXNSR0IArs4c6QAAAQtQTFRFAAAAAID/Inf/Ioj/G4b/F4D/H3r/H4X/HYD/HHv/HIT/G4D/Gn//GYT/GID/F3z/FoP/HXz/HIP/G4D/GoP/GYP/GIL/HID/G4L/GYL/HIL/G4T/G4H/G4X/GoP/GYH/GYP/GoT/GoP/GYT/GoL/GoL/GYX/GYP/GoT/GoP/GYT/GoT/GoT/GoP/GoX/GoX/GoT/GYT/GoT/GYT/GoX/GoX/GYX/GoX/GYX/GYX/GoX/GoX/GoX/GoX/GYX/GYT/GYX/GoX/GoX/GYX/GYX/GoX/GoT/GoX/GYb/GoX/GoX/GoX/GYT/GYX/GoX/GYT/GoX/GoX/GoX/GoX/GoX/GYX/GoX/GoX/GoX/qs3FVQAAAFh0Uk5TAAQPDxMWGRkaGxscHh8gISMjJSYnKSsuLzM3OEFDRkdITU5TWFpcZWxtcHh+iIibnKKmrK60uLq+wMHGx8/T1NXX293e4eLj6evs7vHx8fP19vf4+fz9/ho458UAAAE2SURBVEjH7ZbXVoNAEIYXEmCjsRFRwJ7Ye+911RhLFIwG3v9JpIUzuBJ3LvQq3+U/++2ew3DODCEBkqyo9BdURZZIQkGjQmiF+HyRClOM7qcIgjckDSNoEpEpCpkoOEEhKk5QCRf17Th+wvv+IFfmhSUfsCYgbEBhS0DYhMJ2T/gLQaQPK1BYFxDKh17nePt4RECgtGKa5t2tYRjDPxRJzm/MWE7huzC7e3Ia4rjnIWd7k92F6sfna4Z2a6qrcPQ2kQ2mvYM8oTQWwK4syxroREO2bbcudV2v9PPCwlP68d3VOFp20+h5kRPqoF1OOXqyCaIHToD99c0wGc1EPeF/BA9WxznB44QbUH0sRVEDRIwTZi5emgnXtTiav0/vZ3OpgB4o6JGFHorosYse7PjVAb+c4NafL0Vh7eZJslu0AAAAAElFTkSuQmCC);
-    }
-    .tree-node-web .tree-node-expand-org {
-      width: 20px;
-      height: 20px;
-      background-size: 14px 14px;
-    }
+
     .tree-node-name {
       flex: 1;
       color: #666;
@@ -122,14 +129,14 @@ export default class WxworksuiteTreenode extends LitElement {
     }
     .tree-node-check {
       flex: none;
-      width: 54px;
+      width: 30px;
       height: 54px;
       background-size: 18px 18px;
       background-position: center;
       background-repeat: no-repeat;
     }
     .tree-node-web .tree-node-check {
-      width: 32px;
+      width: 24px;
       height: 32px;
       background-size: 14px 14px;
     }
@@ -153,6 +160,9 @@ export default class WxworksuiteTreenode extends LitElement {
 
   @property({ type: String })
   displaytype: string = 'mobile' // web | mobile
+
+  @property({ type: Boolean })
+  isonelevel: boolean = true
 
   @property({ type: Object })
   node: any = {}
@@ -234,25 +244,37 @@ export default class WxworksuiteTreenode extends LitElement {
           'tree-node-line-select': this.node.isselected
         })}>
 
-          <div class="tree-node-expand">
-            ${
-              this.node?.children?.length
-              ?
-              html`
-                <div
-                  @click="${(e: Event) => this.expandicon !== 'organization' && this.toggle('expand')}"
-                  class=${classMap({
-                    'tree-node-expand-1': (this.expandicon !== 'organization' && this.node.isexpand),
-                    'tree-node-expand-0': (this.expandicon !== 'organization' && !this.node.isexpand),
-                    'tree-node-expand-org': this.expandicon === 'organization'
-                  })}
-                >
-                </div>
-              `
-              :
-              ''
-            }
-          </div>
+          ${
+            this.expandicon === 'organization'
+            ?
+            html`
+              <div class="tree-node-org"></div>
+            `
+            :
+            html`
+              <div class="tree-node-expand" style=${styleMap({
+                display: this.isonelevel ? 'none' : 'block',
+              })}>
+                ${
+                  this.node?.children?.length
+                  ?
+                  html`
+                    <div
+                      @click="${(e: Event) => this.toggle('expand')}"
+                      class=${classMap({
+                        'tree-node-expand-1': this.node.isexpand,
+                        'tree-node-expand-0': !this.node.isexpand
+                      })}
+                    >
+                    </div>
+                  `
+                  :
+                  ''
+                }
+              </div>
+            `
+          }
+
 
           <div
             @click="${this.clickNode}"
@@ -299,7 +321,9 @@ export default class WxworksuiteTreenode extends LitElement {
             this.expandicon === 'organization'
             ?
             html`
-              <div class="tree-node-expand tree-node-expand-right">
+              <div class="tree-node-expand tree-node-expand-left" style=${styleMap({
+                display: this.isonelevel ? 'none' : 'block',
+              })}>
                 ${
                   this.node?.children?.length
                   ?
@@ -340,6 +364,7 @@ export default class WxworksuiteTreenode extends LitElement {
                   expandmode="${this.expandmode}"
                   expandicon="${this.expandicon}"
                   .node="${item}"
+                  .isonelevel="${this.isonelevel}"
                   .iswwopendata="${this.iswwopendata}"
                   wwopendatatype="${this.wwopendatatype}"
                   .ismulselect="${this.ismulselect}"
