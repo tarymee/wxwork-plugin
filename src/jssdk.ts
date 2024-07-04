@@ -2,7 +2,7 @@ import { apaasAxios as axios } from './axios'
 import { isInAppWxwork } from './utils'
 
 class Jssdk {
-  public isHack = false
+  private isHack = false
 
   hack () {
     (Element.prototype as any)._attachShadow = Element.prototype.attachShadow
@@ -18,7 +18,9 @@ class Jssdk {
     }
   }
 
-  public isLoadJs = false
+  private isLoadJs = false
+
+  // private isFail = false
 
   loadJsUrl (url: string, property: any) {
     return new Promise(async (resolve, reject) => {
@@ -40,13 +42,13 @@ class Jssdk {
     })
   }
 
-  public lastConfigUrl = ''
-  public lastConfigJsApiList: string[] = []
+  private lastConfigUrl = ''
+  private lastConfigJsApiList: string[] = []
 
-  public lastAgentConfigUrl = ''
-  public lastAgentConfigJsApiList: string[] = []
+  private lastAgentConfigUrl = ''
+  private lastAgentConfigJsApiList: string[] = []
 
-  config (jsApiList: string[] = []) {
+  private config (jsApiList: string[] = []) {
     // debugger
     return new Promise(async (resolve, reject) => {
       const url = location.origin + location.pathname + location.search
@@ -104,7 +106,7 @@ class Jssdk {
     })
   }
 
-  agentConfig (jsApiList: string[] = []) {
+  private agentConfig (jsApiList: string[] = []) {
     return new Promise(async (resolve, reject) => {
       const url = location.origin + location.pathname + location.search
       const isin = jsApiList.every((item) => {
@@ -152,13 +154,23 @@ class Jssdk {
     })
   }
 
-  async initFun (jsApiList: string[] = []) {
+  private async initFun (jsApiList: string[] = []) {
     return new Promise(async (resolve, reject) => {
 
       if (!this.checkData()) {
         reject(new Error('The current tenant is not a wxworksuite tenant.'))
         return false
       }
+
+      // console.log(this.isFail)
+      // if (this.isFail) {
+      //   setTimeout(() => {
+      //     console.log('setTimeout')
+      //     this.isFail = false
+      //   }, 500)
+      //   reject(new Error('init fail, please wait.'))
+      //   return false
+      // }
 
       if (!this.isHack) {
         this.hack()
@@ -194,18 +206,20 @@ class Jssdk {
           },
           fail: (err: any) => {
             console.error('open-data 登录态过期')
+            // this.isFail = true
             this.reset()
             reject(err)
           }
         })
       } catch (err) {
+        // this.isFail = true
         this.reset()
         reject(err)
       }
     })
   }
 
-  initPro: any = null
+  private initPro: any = null
 
   async init (jsApiList: string[] = []) {
     // 兼容同时间发起多个
@@ -217,7 +231,7 @@ class Jssdk {
     return await this.initPro
   }
 
-  reset () {
+  private reset () {
     this.lastConfigUrl = ''
     this.lastConfigJsApiList = []
     this.lastAgentConfigUrl = ''
@@ -225,7 +239,7 @@ class Jssdk {
     this.initPro = null
   }
 
-  getData () {
+  public getData () {
     const wxworksuitedata = window.localStorage.getItem('wxworksuitedata')
     if (wxworksuitedata) {
       return JSON.parse(wxworksuitedata) as IAny
@@ -237,16 +251,16 @@ class Jssdk {
     }
   }
 
-  setData (obj: any) {
+  public setData (obj: any) {
     obj.suiteKey = this.getData().suiteKey
     window.localStorage.setItem('wxworksuitedata', JSON.stringify(obj))
   }
 
-  removeData () {
+  public removeData () {
     window.localStorage.removeItem('wxworksuitedata')
   }
 
-  checkData () {
+  public checkData () {
     const data = this.getData()
     return !!data.corpId
     // return false

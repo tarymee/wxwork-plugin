@@ -71,8 +71,8 @@ const setValue = () => {
 const wxworksuitetreeRef = ref(null)
 
 const wxworksuitetreestate = reactive({
-  iswwopendata: false, // true | false
-  wwopendatatype: 'departmentName', // departmentName | userName
+  iswwopendata: true, // true | false
+  wwopendatatype: 'userName', // departmentName | userName
   displaytype: 'mobile', // web | mobile
   ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest

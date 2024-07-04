@@ -57,16 +57,16 @@ export default class WxworksuiteBaseOpendata extends LitElement {
     })
   }
 
-  private test (e: Event) {
-    // console.log(this.shadowRoot)
-    // console.log(this.renderRoot)
-    // console.log(this.shadowRoot?.querySelector('#aaaa'))
-    // console.log(this.shadowRoot?.querySelector('ww-open-data'))
-    // debugger
-    const value = this.getValue()
-    console.log(value)
-    this._isCanUseWxworkSuite = !this._isCanUseWxworkSuite
-  }
+  // private test (e: Event) {
+  //   // console.log(this.shadowRoot)
+  //   // console.log(this.renderRoot)
+  //   // console.log(this.shadowRoot?.querySelector('#aaaa'))
+  //   // console.log(this.shadowRoot?.querySelector('ww-open-data'))
+  //   // debugger
+  //   const value = this.getValue()
+  //   console.log(value)
+  //   this._isCanUseWxworkSuite = !this._isCanUseWxworkSuite
+  // }
 
   getValue () {
     const data: any = {
