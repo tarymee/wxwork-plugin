@@ -5,6 +5,8 @@ import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { cloneDeep, debounce } from 'lodash-es'
 import { listToTree } from './utils'
+import { apaasAxios as axios } from '../../axios'
+import jssdk from '../../jssdk'
 
 export default class WxworksuiteTree extends LitElement {
 
@@ -262,28 +264,92 @@ export default class WxworksuiteTree extends LitElement {
     })
   }
 
-  get _inputRef () {
+  get _inputRef (): any {
     return this.renderRoot?.querySelector('input') ?? null
   }
 
-  _hanldeSearch = debounce((e) => {
-    console.log('_hanldeSearch')
+  _searchWxContactApi (query_word: string) {
+    const wxworksuitedata = jssdk.getData()
+
+    let query_type = 0
+    if (this.wwopendatatype === 'userName') {
+      query_type = 1
+    } else if (this.wwopendatatype === 'departmentName') {
+      query_type = 2
+    } else if (this.wwopendatatype === 'express') {
+      query_type = 0
+    }
+
+    return axios.post('/api/wxwork/contact/search', {
+      suiteKey: wxworksuitedata.suiteKey,
+      limit: 200, // 查询返回的最大数量，默认为50，最多为200，查询返回的数量可能小于limit指定的值。limit会分别控制在职数据和离职数据的数量。
+      query_word: query_word, // 搜索关键词。当查询用户时应为用户名称、名称拼音或者英文名；当查询部门时应为部门名称或者部门名称拼音
+      query_type // 查询类型 1：查询用户，返回用户userid列表 2：查询部门，返回部门id列表。 不填该字段或者填0代表同时查询部门跟用户
+      // cursor: params.cursor, // 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
+      // full_match_field: 1, // 精确匹配的字段。1：匹配用户名称或者部门名称 2：匹配用户英文名。不填则为模糊匹配
+    }, {
+      isShowLoading: false
+    }).then((res: any) => {
+      if (res?.data?.code === 200 && res?.data?.data?.queryResult) {
+        const queryResult = res?.data?.data?.queryResult
+        const searchOptions: any = []
+
+        if (queryResult?.party?.departmentId?.length) {
+          queryResult.party.departmentId.forEach((id: string) => {
+            searchOptions.push({
+              id,
+              wwopendatatype: 'departmentName'
+            })
+          })
+        }
+
+        if (queryResult?.user?.userid?.length) {
+          queryResult.user.userid.forEach((id: string) => {
+            searchOptions.push({
+              id,
+              wwopendatatype: 'userName'
+            })
+          })
+        }
+
+        return searchOptions
+      } else {
+        throw Error('微信通信录搜索失败')
+      }
+    })
+  }
+
+  _hanldeSearch = debounce(async (e) => {
+    // console.log('_hanldeSearch')
     // console.log(e)
     // console.log(this)
     // console.log(this._inputRef)
-    console.log(this._inputRef.value)
     this._searchvalue = this?._inputRef?.value || ''
+    console.log(this._searchvalue)
     if (this._searchvalue) {
-      this._searchlist = this._list
+      if (this.iswwopendata && this.wwopendatatype) {
+        try {
+          const searchOptions = await this._searchWxContactApi(this._searchvalue)
+
+          if (!searchOptions.length) {
+            this._searchlist = []
+          } else {
+            this._searchlist = this._list.filter((item: any) => {
+              // return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
+              return searchOptions.some((item2: any) => item.name.toString().indexOf(item2.id.toString()) !== -1)
+            })
+          }
+        } catch (err) {
+          console.error(err)
+          this._searchlist = []
+        }
+      } else {
+        this._searchlist = this._list.filter((item: any) => item.name.indexOf(this._searchvalue) !== -1)
+      }
     } else {
       this._searchlist = []
     }
   }, 300)
-
-  // _hanldeSearch (e: any) {
-  //   console.log('_hanldeSearch')
-  //   console.log(e)
-  // }
 
   getValue (type: 'id' | 'name' | 'fullvalue' = 'id') {
     if (this.ismulselect) {
@@ -379,30 +445,40 @@ export default class WxworksuiteTree extends LitElement {
               height: this.issearch ? 'calc(100% - 48px)' : '100%',
             })}>
               ${
-                this?._searchlist?.length
+                this._searchvalue
                 ?
                 html`
                   ${
-                    repeat(
-                      this._searchlist,
-                      (item: any) => item.id,
-                      (item, index) => html`
-                        <wxworksuite-treenode
-                          displaytype="${this.displaytype}"
-                          expandmode="${this.expandmode}"
-                          expandicon="${this.expandicon}"
-                          .node="${item}"
-                          .isonelevel="${true}"
-                          .isrenderchildren="${false}"
-                          .iswwopendata="${this.iswwopendata}"
-                          wwopendatatype="${this.wwopendatatype}"
-                          .ismulselect="${this.ismulselect}"
-                          .updatepoint="${this._updatepoint}"
-                          @toggle="${this._handleToggle}"
-                        >
-                      </wxworksuite-treenode>
-                      `
-                    )
+                    this?._searchlist?.length
+                    ?
+                    html`
+                      ${
+                        repeat(
+                          this._searchlist,
+                          (item: any) => item.id,
+                          (item, index) => html`
+                            <wxworksuite-treenode
+                              displaytype="${this.displaytype}"
+                              expandmode="${this.expandmode}"
+                              expandicon="${this.expandicon}"
+                              .node="${item}"
+                              .isonelevel="${true}"
+                              .isrenderchildren="${false}"
+                              .iswwopendata="${this.iswwopendata}"
+                              wwopendatatype="${this.wwopendatatype}"
+                              .ismulselect="${this.ismulselect}"
+                              .updatepoint="${this._updatepoint}"
+                              @toggle="${this._handleToggle}"
+                            >
+                          </wxworksuite-treenode>
+                          `
+                        )
+                      }
+                    `
+                    :
+                    html`
+                      <div class="tree-none">暂无搜索结果</div>
+                    `
                   }
                 `
                 :
@@ -431,6 +507,7 @@ export default class WxworksuiteTree extends LitElement {
                   }
                 `
               }
+
             </div>
           `
           :
