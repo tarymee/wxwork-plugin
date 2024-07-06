@@ -1,5 +1,5 @@
-import WxworksuiteTest from './WxworksuiteTest'
-import WxworksuiteTest2 from './WxworksuiteTest/index2'
+// import WxworksuiteTest from './WxworksuiteTest'
+// import WxworksuiteTest2 from './WxworksuiteTest/index2'
 import WxworksuiteLoadding from './WxworksuiteLoadding'
 import WxworksuiteBaseOpendata from './WxworksuiteOpendata/base'
 import WxworksuiteOpendata from './WxworksuiteOpendata'
@@ -11,8 +11,8 @@ import WxworksuiteMemberpickMobile from './WxworksuiteMemberpick/mobile'
 import WxworksuiteMemberpickWeb from './WxworksuiteMemberpick/web'
 
 const components: any = {
-  WxworksuiteTest,
-  WxworksuiteTest2,
+  // WxworksuiteTest,
+  // WxworksuiteTest2,
   WxworksuiteLoadding,
   WxworksuiteBaseOpendata,
   WxworksuiteOpendata,

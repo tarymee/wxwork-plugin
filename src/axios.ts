@@ -14,7 +14,7 @@ interface Response {
   msg: string
 }
 
-const createAxiosInstance = (type: 'spu' | 'apaas' = 'spu', options: any) => {
+const createAxiosInstance = (options: any) => {
   const axiosInstance: AxiosInstance = axios.create({
     baseURL: '',
     // timeout: 36000000
@@ -42,7 +42,7 @@ const createAxiosInstance = (type: 'spu' | 'apaas' = 'spu', options: any) => {
     return Promise.reject(error)
   })
 
-  axiosInstance.interceptors.response.use((res: AxiosResponse) => {
+  axiosInstance.interceptors.response.use((res: AxiosResponse): any => {
     // debugger
     const isShowLoading = get(res, 'config.isShowLoading', true)
     isShowLoading && loadding.close()
@@ -53,35 +53,12 @@ const createAxiosInstance = (type: 'spu' | 'apaas' = 'spu', options: any) => {
       msg: ''
     }
 
-    if (type === 'spu') {
-      if (res.data.code === 200) {
-        // return res.data
-        realRes = {
-          code: res.data.code,
-          data: res.data.data,
-          msg: res.data.msg
-        }
-        return realRes
-      } else {
-        const msg = res?.data?.msg || '网络异常，请稍后重试。'
-        const isShowErrorMessage = get(res, 'config.isShowErrorMessage', true)
-        // isShowErrorMessage && Message.error(msg)
-
-        realRes = {
-          code: res.data.code,
-          data: res.data.data,
-          msg: res.data.msg
-        }
-        return Promise.reject(realRes) as any
-      }
-    } else if (type === 'apaas') {
-      realRes = {
-        code: res.status || 200,
-        data: res.data?.resp_data || res.data,
-        msg: res.data?.error_code || ''
-      }
-      return realRes
+    realRes = {
+      code: res.status || 200,
+      data: res.data?.resp_data || res.data,
+      msg: res.data?.error_code || ''
     }
+    return realRes
   }, (err: AxiosError) => {
     // console.log(err)
     // debugger
@@ -92,24 +69,16 @@ const createAxiosInstance = (type: 'spu' | 'apaas' = 'spu', options: any) => {
     // debugger
     // 兼容处理接口新方案 通过传参配置区分 默认使用新方案
     // 接口返回非 200 状态码 肯定是报错必须要提示
-    const msg = (type === 'spu' ? get(err, 'response.data.msg') : get(err, 'response.data.error_code')) || get(err, 'response.statusText') || get(err, 'message', '网络异常，请稍后重试。')
+    const msg = get(err, 'response.data.error_code') || get(err, 'response.statusText') || get(err, 'message', '网络异常，请稍后重试。')
 
-    const isShowErrorMessage = get(err, 'config.isShowErrorMessage', true)
+    // const isShowErrorMessage = get(err, 'config.isShowErrorMessage', true)
     // isShowErrorMessage && Message.error(msg)
 
     const isNoLogin = () => {
-      if (type === 'spu') {
-        if (msg === '未授权' && get(err, 'response.data.code') === 401) {
-          return true
-        } else {
-          return false
-        }
-      } else if (type === 'apaas') {
-        if (msg.indexOf('token is invalid(decode).') !== -1 || msg.indexOf('token is invalid(null).') !== -1 || msg === 'token无效，请重新登录' || msg === 'jwt token无效') {
-          return true
-        } else {
-          return false
-        }
+      if (msg.indexOf('token is invalid(decode).') !== -1 || msg.indexOf('token is invalid(null).') !== -1 || msg === 'token无效，请重新登录' || msg === 'jwt token无效') {
+        return true
+      } else {
+        return false
       }
     }
 
@@ -125,15 +94,15 @@ const createAxiosInstance = (type: 'spu' | 'apaas' = 'spu', options: any) => {
   return axiosInstance
 }
 
-// const apaasAxios: AxiosInstance = createAxiosInstance('apaas')
+// const normalAxios: any = createAxiosInstance('apaas')
 
-let apaasAxios: any = null
+let normalAxios: any = null
 
 function initAxios (options: any) {
-  apaasAxios = createAxiosInstance('apaas', options)
+  normalAxios = createAxiosInstance(options)
 }
 
 export {
   initAxios,
-  apaasAxios
+  normalAxios as axios
 }

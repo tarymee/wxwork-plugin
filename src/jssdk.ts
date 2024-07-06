@@ -1,5 +1,19 @@
-import { apaasAxios as axios } from './axios'
-import { isInAppWxwork } from './utils'
+import { axios } from './axios'
+
+// 是否企微软件内 包括电脑端和APP端
+const isWxwork = () => {
+  return navigator.userAgent.indexOf('wxwork') >= 0
+}
+
+// 是否在电脑端企微软件内
+const isWxworkPc = () => {
+  return isWxwork() && navigator.userAgent.indexOf('Mobile') === -1
+}
+
+// 是否在企微APP内
+const isWxworkApp = () => {
+  return isWxwork() && navigator.userAgent.indexOf('Mobile') >= 0
+}
 
 class Jssdk {
   private isHack = false
@@ -178,7 +192,7 @@ class Jssdk {
       }
 
       if (!this.isLoadJs) {
-        if (isInAppWxwork()) {
+        if (isWxworkApp()) {
           await this.loadJsUrl('//res.wx.qq.com/wwopen/js/jsapi/jweixin-1.0.0.js', {
             referrerpolicy: 'origin'
           })
@@ -267,4 +281,15 @@ class Jssdk {
   }
 }
 
-export default new Jssdk()
+const jssdk = new Jssdk()
+
+const isWxworkSuiteTenant = jssdk.checkData.bind(jssdk)
+
+export {
+  jssdk as default,
+  isWxworkSuiteTenant,
+  isWxwork,
+  isWxworkPc,
+  isWxworkApp
+}
+

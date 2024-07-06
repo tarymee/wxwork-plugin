@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
-import { apaasAxios as axios } from '../../axios'
+import { axios } from '../../axios'
 
 export default class WxworksuiteOrganizationpickMobile extends LitElement {
 

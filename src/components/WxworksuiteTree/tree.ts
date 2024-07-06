@@ -5,7 +5,7 @@ import { classMap } from 'lit/directives/class-map.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { cloneDeep, debounce } from 'lodash-es'
 import { listToTree } from './utils'
-import { apaasAxios as axios } from '../../axios'
+import { axios } from '../../axios'
 import jssdk from '../../jssdk'
 
 export default class WxworksuiteTree extends LitElement {
@@ -430,6 +430,7 @@ export default class WxworksuiteTree extends LitElement {
           ?
           html`
             <div class="tree-search">
+              <!-- @ts-ignore -->
               <input placeholder=${this.searchplaceholder} value=${this._searchvalue} @input=${this._hanldeSearch} />
             </div>
           `
