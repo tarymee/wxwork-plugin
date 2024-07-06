@@ -20,7 +20,7 @@ const globalOptions: any = {
 const WxworksuitePluginInstall = (options: any) => {
   merge(globalOptions, options)
   console.log('@smart100/wxworksuite-plugin install')
-  console.log('@smart100/wxworksuite-plugin options', options)
+  console.log('@smart100/wxworksuite-plugin userOptions', options)
   console.log('@smart100/wxworksuite-plugin globalOptions', globalOptions)
 
   initAxios(globalOptions)
