@@ -22,6 +22,7 @@ const WxworksuitePluginInstall = (options: any) => {
   console.log('@smart100/wxworksuite-plugin install')
   console.log('@smart100/wxworksuite-plugin userOptions', options)
   console.log('@smart100/wxworksuite-plugin globalOptions', globalOptions)
+  // console.error('test')
 
   initAxios(globalOptions)
 
