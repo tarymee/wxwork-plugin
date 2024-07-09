@@ -85,7 +85,10 @@ export default class WxworksuiteTree extends LitElement {
 
   // 控制通信录转移类型
   @property({ type: String })
-  wwopendatatype: string = '' // userName | departmentName | express
+  wwopendatatype: string = '' // userName | departmentName | expression
+
+  @property({ type: String })
+  valuekey: string = 'id' // 默认id 也可定义别的属性值比如 codepath（被定义的属性值必须唯一）
 
   @property({ type: Boolean })
   ismulselect: boolean = false
@@ -254,7 +257,7 @@ export default class WxworksuiteTree extends LitElement {
     }
   }
 
-  _setSelect (id: any, value: boolean) {
+  _setSelect (id: string, value: boolean) {
     this._list.forEach((item: any) => {
       if (item.id === id) {
         item.isselected = value
@@ -276,7 +279,7 @@ export default class WxworksuiteTree extends LitElement {
       query_type = 1
     } else if (this.wwopendatatype === 'departmentName') {
       query_type = 2
-    } else if (this.wwopendatatype === 'express') {
+    } else if (this.wwopendatatype === 'expression') {
       query_type = 0
     }
 
@@ -351,7 +354,7 @@ export default class WxworksuiteTree extends LitElement {
     }
   }, 300)
 
-  getValue (type: 'id' | 'name' | 'fullvalue' = 'id') {
+  getValue (type?: string) {
     if (this.ismulselect) {
       let arr = this._list.filter((item: any) => item.checkstate === '1')
       // normal 父子有关联 共同取值 半选不取
@@ -368,48 +371,75 @@ export default class WxworksuiteTree extends LitElement {
         arr = arr.filter((item: any) => !item?.parent)
       }
 
-      if (type === 'id') {
-        return arr?.length ? arr.map((item: any) => item.id) : []
+      if (!type) {
+        return arr?.length ? arr.map((item: any) => item[this.valuekey]) : []
       } else if (type === 'name') {
         return arr?.length ? arr.map((item: any) => item.name) : []
-      } else {
+      } else if (type === 'fullvalue') {
         return arr?.length ? cloneDeep(arr) : []
+      } else {
+        return arr?.length ? arr.map((item: any) => item[type]) : []
       }
     } else {
       const obj = this._list.find((item: any) => item.isselected)
-      if (type === 'id') {
-        return obj ? obj.id : ''
+      if (!type) {
+        return obj ? obj[this.valuekey] : ''
       } else if (type === 'name') {
         return obj ? obj.name : ''
-      } else {
+      } else if (type === 'fullvalue') {
         return obj ? cloneDeep(obj) : null
+      } else {
+        return obj ? obj[type] : ''
       }
     }
   }
 
-  setValue (value: any) {
+  _transValuekeyValueToIdValue (value?: string | string[]) {
+    if (this.valuekey === 'id') {
+      return value
+    } else {
+      if (Array.isArray(value)) {
+        return value.map((item) => {
+          const a = this._list.find((item2: any) => item2[this.valuekey] === item)
+          return a?.id || ''
+        })
+      } else {
+        if (value) {
+          const a = this._list.find((item2: any) => item2[this.valuekey] === value)
+          return a?.id || ''
+        } else {
+          return value
+        }
+      }
+    }
+  }
+
+  setValue (value?: string | string[]) {
+    const idValue = this._transValuekeyValueToIdValue(value)
     // debugger
     if (this.ismulselect) {
       this._list.forEach((item: any) => {
         item.checkstate = '0'
       })
-      value?.length && value.forEach((item: any) => {
+      Array.isArray(idValue) && idValue.forEach((item: any) => {
         this._setCheck(item, '1')
       })
       this._updateTemplate()
     } else {
-      this._setSelect(value, true)
+      this._setSelect(idValue as string, true)
       this._updateTemplate()
     }
   }
 
-  setCheck (id: any, value = true) {
-    this._setCheck(id, value ? '1' : '0')
+  setCheck (value: string, flag = true) {
+    const idValue = this._transValuekeyValueToIdValue(value)
+    this._setCheck(idValue, flag ? '1' : '0')
     this._updateTemplate()
   }
 
-  setSelect (id: any, value = true) {
-    this._setSelect(id, value)
+  setSelect (value: string, flag = true) {
+    const idValue = this._transValuekeyValueToIdValue(value)
+    this._setSelect(idValue, flag)
     this._updateTemplate()
   }
 
