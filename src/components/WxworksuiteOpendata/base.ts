@@ -12,12 +12,7 @@ export default class WxworksuiteBaseOpendata extends LitElement {
   }
 
   static styles = css`
-    /* :host {
-      display: inline-block;
-    }
-    ww-open-data {
-      display: inline-block;
-    } */
+    :host {}
   `
 
   @property({ type: String })

@@ -11,10 +11,15 @@ export default class WxworksuiteOpendata extends LitElement {
     }
   }
 
+  // https://blog.csdn.net/Letasian/article/details/76460882
+  // https://www.jianshu.com/p/b3f01185e55b
+  // https://www.cnblogs.com/benxiaohai-microcosm/p/6928897.html
   static styles = css`
     :host {
       /* display: inline-block; */
-      word-spacing: -1em;
+      /* word-spacing: -1em; */
+      /* letter-spacing: -1em; */
+      /* display: flex; */
     }
   `
 
@@ -121,7 +126,7 @@ export default class WxworksuiteOpendata extends LitElement {
 
   getValue () {
     if (this.type === 'expression') {
-      console.log(this.wwbaseopendataRefs)
+      // console.log(this.wwbaseopendataRefs)
       const data: any = {
         type: this.type,
         openid: this.openid,
