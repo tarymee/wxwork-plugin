@@ -37,7 +37,35 @@ class Jssdk {
 
   loadJsUrl (url: string, property: any, whichWindow: any = window) {
     return new Promise(async (resolve, reject) => {
-      const script: any = whichWindow.document.createElement('script')
+
+      const whichDocument = whichWindow.document
+
+      // 判断顶部是否已经加载过js
+      const allscript = whichDocument.head.getElementsByTagName('script')
+      const isload = Array.from(allscript).some((item: any) => {
+        // 不判断相等是因为 //open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js 插入前不带 http | https 插入后会自动基于当前地址补全 https
+        if (item.src.includes(url)) {
+          let issameproperty = true
+          if (property) {
+            for (const x in property) {
+              if (item.getAttribute(x) !== property[x]) {
+                issameproperty = false
+              }
+            }
+          }
+          return issameproperty
+        } else {
+          return false
+        }
+      })
+
+      if (isload) {
+        console.warn(`${url} 文件已加载过，无需重复加载。`)
+        resolve('success')
+        return
+      }
+
+      const script: any = whichDocument.createElement('script')
       script.setAttribute('type', 'text/javascript')
       script.setAttribute('src', url)
       if (property) {
@@ -45,7 +73,7 @@ class Jssdk {
           script.setAttribute(x, property[x])
         }
       }
-      whichWindow.document.getElementsByTagName('head')[0].appendChild(script)
+      whichDocument.getElementsByTagName('head')[0].appendChild(script)
       script.onload = script.onreadystatechange = () => {
         const st = script.readyState
         if (st && st !== 'loaded' && st !== 'complete') return
@@ -97,10 +125,11 @@ class Jssdk {
           console.error('wx.config fail', err)
           reject(err)
         })
-        setTimeout(() => {
-          reject(new Error('wx.config fail timeout 3000'))
-        }, 3000)
+        // setTimeout(() => {
+        //   reject(new Error('wx.config fail timeout 3000'))
+        // }, 3000)
       } catch (err) {
+        console.error('wx.config fail', err)
         reject(err)
       }
     })
@@ -138,6 +167,7 @@ class Jssdk {
           }
         })
       } catch (err) {
+        console.error('wx.agentConfig fail', err)
         reject(err)
       }
     })
@@ -179,6 +209,7 @@ class Jssdk {
         // agentConfig 和 config 须引入 jweixin.js 且必须在 top window 上注册
         // 执行 jssdk 的命名空间也必须在 top window 上拿，如 window.top.wx window.top.WWOpenData
         // jwxwork.js 是生成 ww-open-data 组件的代码 必须在当前 window 引入
+        // window.top 也必须引入 jwxwork.js 不然 topWindow.wx.agentConfig 注册的时候找不到 agentConfig 方法
         if (window.top && window.top !== window) {
           if (isWxworkApp()) {
             await this.loadJsUrl('//res.wx.qq.com/wwopen/js/jsapi/jweixin-1.0.0.js', {
@@ -189,6 +220,10 @@ class Jssdk {
               referrerpolicy: 'origin'
             }, window.top)
           }
+          await this.loadJsUrl('//open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js', {
+            referrerpolicy: 'origin'
+          }, window.top)
+
           await this.loadJsUrl('//open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js', {
             referrerpolicy: 'origin'
           })
@@ -218,7 +253,6 @@ class Jssdk {
         const res = await this.checkSession()
         resolve(res)
       } catch (err) {
-        // this.isFail = true
         this.reset()
         reject(err)
       }
@@ -233,7 +267,8 @@ class Jssdk {
     }
 
     jsApiList = [...new Set([...this.lastAgentConfigJsApiList, ...jsApiList])]
-    const url = location.origin + location.pathname + location.search
+    // const url = location.origin + location.pathname + location.search
+    const url = this.getTopUrl()
     const isin = jsApiList.every((item) => {
       return this.lastAgentConfigJsApiList.some((item2) => item2 === item)
     })
@@ -246,20 +281,22 @@ class Jssdk {
         const res = await this.checkSession()
         return res
       } catch (err) {
-        // this.isFail = true
         this.reset()
         throw err
       }
-
     } else {
-      // 兼容同时间发起多个
-      if (this.initPro) {
-        return this.initPro
+      try {
+        // 兼容同时间发起多个
+        if (this.initPro) {
+          return this.initPro
+        }
+        this.initPro = this.initFun(jsApiList, url)
+        const res = await this.initPro
+        this.initPro = null
+        return res
+      } catch (err) {
+        throw err
       }
-      this.initPro = this.initFun(jsApiList, url)
-      const res = await this.initPro
-      this.initPro = null
-      return res
     }
   }
 
@@ -269,6 +306,11 @@ class Jssdk {
 
   getTopWindow () {
     return window.top || window
+  }
+
+  getTopUrl () {
+    const win = this.getTopWindow()
+    return win.location.origin + win.location.pathname + win.location.search
   }
 
   private reset () {

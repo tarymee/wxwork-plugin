@@ -50,7 +50,6 @@ export default class WxworksuiteBaseOpendata extends LitElement {
         }
       }
     }).catch((err) => {
-      // console.error(err)
       // console.error('jssdk.init() fail', err)
       this._isCanUseWxworkSuite = false
     })
