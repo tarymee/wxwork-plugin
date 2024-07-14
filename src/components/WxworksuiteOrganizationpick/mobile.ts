@@ -42,6 +42,9 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
   singleselectmode: string = 'normal'
 
   @state()
+  protected _expandicon = 'organization'
+
+  @state()
   protected _list: any = []
 
   constructor () {
@@ -117,7 +120,7 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
       <wxworksuite-tree
         wwopendatatype="departmentName"
         displaytype="${this.displaytype}"
-        expandicon="organization"
+        expandicon="${this._expandicon}"
         .iswwopendata="${true}"
         .list="${this._list}"
         .ismulselect="${this.ismulselect}"

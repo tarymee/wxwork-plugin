@@ -72,11 +72,11 @@ const wxworksuitetreeRef = ref(null)
 
 const wxworksuitetreestate = reactive({
   iswwopendata: true, // true | false
-  wwopendatatype: 'userName', // departmentName | userName
-  displaytype: 'mobile', // web | mobile
+  wwopendatatype: 'departmentName', // departmentName | userName
+  displaytype: 'web', // web | mobile
   ismulselect: true, // true | false
   mulselectmode: 'normal', // individual | normal | disable | related | shortcut | highest
-  expandicon: 'organization', // organization | normal
+  expandicon: 'normal', // organization | normal
   expandmode: 'root'
 })
 

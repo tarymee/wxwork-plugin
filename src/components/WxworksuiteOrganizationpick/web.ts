@@ -1,4 +1,4 @@
-import { property } from 'lit/decorators.js'
+import { property, state } from 'lit/decorators.js'
 import WxworksuiteOrganizationpickMobile from './mobile'
 
 export default class WxworksuiteOrganizationpickWeb extends WxworksuiteOrganizationpickMobile {
@@ -12,4 +12,7 @@ export default class WxworksuiteOrganizationpickWeb extends WxworksuiteOrganizat
 
   @property({ type: String })
   displaytype: string = 'web'
+
+  @state()
+  protected _expandicon = 'normal'
 }

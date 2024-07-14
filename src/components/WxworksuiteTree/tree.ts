@@ -46,7 +46,10 @@ export default class WxworksuiteTree extends LitElement {
       background-position: 8px center;
       background-repeat: no-repeat;
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAXpQTFRFAAAAAAAA////qqqqv7+/mZmZqqqqn5+fjo6OmZmZlZWVnZ2dkpKSpKSkmZmZlJSUmZmZm5ubnZ2dl5eXm5ubnJycm5ubmJiYmpqalpaWnZ2dmZmZm5ubmZmZmZmZlpaWmpqam5ubmpqamZmZmJiYl5eXmZmZnJycmpqal5eXmJiYmpqam5ubl5eXmpqamJiYmpqamZmZmpqamZmZmpqamZmZmJiYmZmZnJycmZmZmZmZmpqamZmZmpqamZmZmpqamJiYmpqamZmZmZmZmZmZmZmZmpqamZmZmpqampqamZmZmJiYmZmZmZmZmpqampqamZmZmJiYmZmZmJiYmZmZmZmZmJiYmZmZmpqamZmZmJiYmZmZmZmZmpqamZmZmZmZmpqamZmZmpqamZmZmZmZmZmZmZmZmJiYmZmZmpqamZmZmZmZmpqamZmZmZmZmZmZmZmZmZmZmZmZmZmZmJiYmZmZmZmZmZmZmJiYmZmZmZmZmZmZmpqamZmZU/9+bQAAAH10Uk5TAAEBAwQFBggJCgwNDg4PExQXGhscHyElJicnKCktMjM1ODo8PkBBQ0RHSElKTExNTlBRVVtfYWRkZmlqbG1ub4aLjI+WmJ+goaasrrGys7W3uLm6u7y9wcTFx8vMzM7P0dXW2dve3+Lj4+Tl5ezv8PHy8/X29/n6+/z9/v4sOdMfAAABK0lEQVQYGc3BVztCAQAG4E9DhJSVkZkR2SHK3nuPZJ1Qtsg4re+/6/FIZ9CVC++LP6UtbWgs1+M3jsUHpkSWXRr8wLZHxoTN9ZM38tQOlZ4nhtzFSDG6zih6oNAZS07n4otmIsoxyFSG6YFEhxhthdQGZyDj5bkWGXbe5kHOzyFkzHIcCk7uIuMmUQYFfVgsQloBQ1DZYR3SqngIlQV2Ia2aPqjMsxtphQxCZZv1+HaXKIGC7lE04dscR6HQzn1kNPPKADkfhyGxxSnIjDCoh4TtOemGhOM93gaZ3nhiUo8vOV6R9xbI9Ud4OWhCSl7fEWPXDFggV3tAiserK/4X8qLFLDBggYJzKcyU17UBLWAWGLBASVfR1Gw14JNZYMCIbMxCvAZZ5VvxX3wAF7lDHio0PxcAAAAASUVORK5CYII=);
-      /* box-shadow: 0px 0px 2px #ddd; */
+      /* box-shadow: 0px 0px 2px #ddd inset; */
+    }
+    .tree-web .tree-search {
+      border-radius: 5px;
     }
     .tree-search input {
       /* display: none; */
@@ -58,6 +61,9 @@ export default class WxworksuiteTree extends LitElement {
       width: 100%;
       padding: 0;
       margin: 0;
+    }
+    .tree-web .tree-search input {
+      font-size: 12px;
     }
     .tree-search input:focus {
       /* outline: none; */

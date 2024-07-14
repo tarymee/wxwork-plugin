@@ -48,7 +48,7 @@
 
   <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
     <div class="tree-popup" style="height: calc(100% - 80px)">
-      <wxworksuite-organizationpick-mobile ref="mulRef" ismulselect="{{ true }}" />
+      <wxworksuite-organizationpick-web ref="mulRef" ismulselect="{{ true }}" />
     </div>
     <div class="tree-popup-btn">
       <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>

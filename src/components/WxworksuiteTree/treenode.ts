@@ -56,8 +56,6 @@ export default class WxworksuiteTreenode extends LitElement {
     //   background-color: rgba(000, 000, 000, 0.1);
     // }
 
-
-
     .tree-node-org {
       flex: none;
       width: 24px;
@@ -278,6 +276,25 @@ export default class WxworksuiteTreenode extends LitElement {
             `
           }
 
+          ${
+            this.ismulselect && this.displaytype === 'web'
+            ?
+            html`
+              <div
+                @click="${(e: Event) => this.toggle('check')}"
+                class=${classMap({
+                  'tree-node-check': true,
+                  'tree-node-check-0': this.node.checkstate === '0',
+                  'tree-node-check-1': this.node.checkstate === '1',
+                  'tree-node-check-2': this.node.checkstate === '2'
+                })}
+              >
+              </div>
+            `
+            :
+            ''
+          }
+
 
           <div
             @click="${this.clickNode}"
@@ -302,7 +319,7 @@ export default class WxworksuiteTreenode extends LitElement {
           </div>
 
           ${
-            this.ismulselect
+            this.ismulselect && this.displaytype === 'mobile'
             ?
             html`
               <div

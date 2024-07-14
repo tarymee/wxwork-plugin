@@ -40,19 +40,23 @@ export default class WxworksuiteBaseOpendata extends LitElement {
     super.connectedCallback()
     // console.log('connectedCallback')
 
-    jssdk.init(['getLocation']).then((res: any) => {
+    jssdk.init().then(({ topWWOpenData }) => {
       this._isCanUseWxworkSuite = true
-      // console.log('window.WWOpenData', window.WWOpenData)
-
-      if (window.WWOpenData && this.wwopendataRef) {
-        window.WWOpenData.bind(this.wwopendataRef)
-        // window.WWOpenData.on('update', update)
-        // window.WWOpenData.on('error', () => {
-        //   console.error('获取数据失败')
-        // })
+      if (this.wwopendataRef) {
+        if (topWWOpenData) {
+          topWWOpenData.bind(this.wwopendataRef)
+          // WWOpenData.on('update', (event: any) => {
+          //   const openid = event.detail.element.getAttribute('openid')
+          //   console.log('渲染数据发生变更', event, openid)
+          // })
+          // topWWOpenData.on('error', (event: any) => {
+          //   console.error('获取数据失败', event)
+          // })
+        }
       }
     }).catch((err) => {
       // console.error(err)
+      // console.error('jssdk.init() fail', err)
       this._isCanUseWxworkSuite = false
     })
   }
