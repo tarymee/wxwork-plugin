@@ -19,12 +19,12 @@ export default {
       plugins: [
         // terser() // 压缩
       ]
-    },
+    }
     // {
     //   file: pkg.browser,
     //   format: 'umd',
     //   name: 'wxworksuite-plugin',
-    // },
+    // }
     // {
     //   file: pkg.main,
     //   format: 'cjs',
@@ -56,6 +56,7 @@ export default {
         // '.vue',
       ],
       // https://juejin.cn/post/7209262585005572153
+      // https://juejin.cn/post/7051236803344334862
       // https://www.jianshu.com/p/fe3319e0abc4
       babelHelpers: 'bundled',
       exclude: [
