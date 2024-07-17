@@ -27,15 +27,14 @@ export default class WxworksuiteTree extends LitElement {
       display: block;
       width: 100%;
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: hidden;
       position: relative;
     }
     .tree-search {
       margin: 8px 0;
       border: 1px solid #F6F6F6;
       background-color: #FFF;
-      overflow: hidden;
+      /* overflow: hidden; */
       border-radius: 16px;
       height: 30px;
       line-height: 30px;
@@ -65,11 +64,12 @@ export default class WxworksuiteTree extends LitElement {
     .tree-web .tree-search input {
       font-size: 12px;
     }
-    .tree-search input:focus {
-      /* outline: none; */
-    }
+    /* .tree-search input:focus {
+      outline: none;
+    } */
     .tree-con {
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .tree-none {
       width: 100%;
@@ -79,6 +79,44 @@ export default class WxworksuiteTree extends LitElement {
       justify-content: center;
       color: #777;
       font-size: 14px;
+    }
+
+
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .tree1 {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      /* overflow: hidden; */
+    }
+    .tree1-search {
+      flex: none;
+      margin: 8px 0;
+      border: 1px solid #F6F6F6;
+      background-color: #FFF;
+      border-radius: 16px;
+      height: 30px;
+      line-height: 30px;
+      font-size: 14px;
+      padding: 0 12px 0 28px;
+      color: #999999;
+    }
+    .tree1-con {
+      flex: 1;
+      /* height: calc(100% - 48px); */
+      overflow-y: scroll;
+      z-index: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tree1-con-text {
+      height: 800px;
+      background-color: red;
     }
   `
 
@@ -448,6 +486,17 @@ export default class WxworksuiteTree extends LitElement {
     this._setSelect(idValue, flag)
     this._updateTemplate()
   }
+
+  // rende2r () {
+  //   return html`
+  //     <div class="tree1">
+  //     <div class="tree1-search">搜索</div>
+  //     <div class="tree1-con">
+  //       <div class="tree1-con-text">暂无搜索结果</div>
+  //     </div>
+  //   </div>
+  //   `
+  // }
 
   render () {
     return html`
