@@ -27,6 +27,12 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
   @property({ type: Boolean })
   ismulselect: boolean = false
 
+  @property({ type: Boolean })
+  issearch: boolean = true
+
+  @property({ type: String })
+  searchplaceholder: string = '请输入关键字搜索'
+
   // normal 父子有关联 共同取值 半选不取
   // individual 父子无关联 各自独立取值
   // disable 父子有关联 不能选非末级节点 取值末级节点
@@ -124,6 +130,8 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
         wwopendatatype="expression"
         displaytype="mobile"
         expandicon="organization"
+        searchplaceholder="${this.searchplaceholder}"
+        .issearch="${this.issearch}"
         .iswwopendata="${true}"
         .list="${this._list}"
         .ismulselect="${this.ismulselect}"
