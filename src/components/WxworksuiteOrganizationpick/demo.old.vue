@@ -46,28 +46,15 @@
     </div>
   </div>
 
-
-
-  <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }">
-    <div class="tree-popup" style="height: 300px">
-      <div class="tree-popup-con">
-        <wxworksuite-organizationpick-mobile ref="mulRef" :issearch="true" ismulselect="{{ true }}"  />
-      </div>
-      <div class="tree-popup-btn">
-        <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>
-        <van-button class="btn" type="primary" size="large" @click="mulComfirm">确定</van-button>
-      </div>
+  <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
+    <div class="tree-popup" style="height: calc(100% - 80px)">
+      <wxworksuite-organizationpick-web ref="mulRef" ismulselect="{{ true }}" />
+    </div>
+    <div class="tree-popup-btn">
+      <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>
+      <van-button class="btn" type="primary" size="large" @click="mulComfirm">确定</van-button>
     </div>
   </van-popup>
-
-  <!-- <div class="van-overlay" role="button" tabindex="0" style="z-index: 2002;"></div>
-  <div class="van-popup van-popup--bottom" role="dialog" tabindex="0" :style="{ height: '40%', zIndex: 9999 }">
-    <div class="tree-popup" style="height: 300px">
-      <div class="tree-popup-con">
-        <wxworksuite-organizationpick-mobile ref="mulRef" :issearch="true" ismulselect="{{ true }}"  />
-      </div>
-    </div>
-  </div> -->
 
 </template>
 
@@ -189,34 +176,16 @@ const mulComfirm = () => {
 
 .tree-popup {
   box-sizing: border-box;
-  // position: relative;
+  position: relative;
   height: 100%;
   background-color: #F6F6F6;
   padding: 12px;
 }
-.tree-popup-con {
-  height: 100%;
-  overflow: hidden;
-}
-.wxworksuite-organizationpick-web {
-  height: 100%;
-  // overflow-y: auto;
-}
-// .tree-popup-text {
-//   height: 500px;
-//   background-color: red;
-// }
 .tree-popup-btn {
-  flex: none;
   display: flex;
   margin: 12px;
 }
 .tree-popup-btn button {
   margin: 0px 8px;
 }
-</style>
-<style>
-/* .van-popup {
-  overflow: scroll;
-} */
 </style>
