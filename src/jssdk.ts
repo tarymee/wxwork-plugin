@@ -89,6 +89,11 @@ class Jssdk {
   private lastAgentConfigUrl = ''
   private lastAgentConfigJsApiList: string[] = ['getLocation']
 
+  private lastCheckSessionData: IAny = {
+    flag: false,
+    time: 0
+  }
+
   private config (jsApiList: string[] = [], url: string) {
     // debugger
     return new Promise(async (resolve, reject) => {
@@ -178,19 +183,31 @@ class Jssdk {
       const topWWOpenData = this.getTopWWOpenData()
       const topWindow = this.getTopWindow()
       if (topWWOpenData) {
-        topWWOpenData.checkSession({
-          success: () => {
-            console.log('open-data 登录态校验成功')
-            resolve({
-              topWindow,
-              topWWOpenData,
-            })
-          },
-          fail: (err: any) => {
-            console.error('open-data 登录态过期')
-            reject(err)
-          }
-        })
+        // xx时间之内校验成功则不用一直校验
+        if (this.lastCheckSessionData.flag && Date.now() - this.lastCheckSessionData.time < 300000) {
+          resolve({
+            topWindow,
+            topWWOpenData,
+          })
+        } else {
+          topWWOpenData.checkSession({
+            success: () => {
+              console.log('open-data 登录态校验成功')
+              this.lastCheckSessionData.flag = true
+              this.lastCheckSessionData.time = Date.now()
+              resolve({
+                topWindow,
+                topWWOpenData,
+              })
+            },
+            fail: (err: any) => {
+              console.error('open-data 登录态过期')
+              this.lastCheckSessionData.flag = false
+              this.lastCheckSessionData.time = 0
+              reject(err)
+            }
+          })
+        }
       } else {
         reject(new Error('不存在 WWOpenData，请排查。'))
       }
@@ -301,7 +318,11 @@ class Jssdk {
   }
 
   getTopWWOpenData () {
-    return window?.top?.WWOpenData || window?.WWOpenData || null
+    if (window.top !== window) {
+      return window.top?.WWOpenData || null
+    } else {
+      return window.WWOpenData || null
+    }
   }
 
   getTopWindow () {
@@ -318,6 +339,10 @@ class Jssdk {
     this.lastConfigJsApiList = ['getLocation']
     this.lastAgentConfigUrl = ''
     this.lastAgentConfigJsApiList = ['getLocation']
+    this.lastCheckSessionData = {
+      flag: false,
+      time: 0
+    }
     this.initPro = null
   }
 

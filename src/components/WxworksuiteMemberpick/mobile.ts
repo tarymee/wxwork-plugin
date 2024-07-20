@@ -63,9 +63,9 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     }).then((res: any) => {
       // console.log(res)
       const list = res?.data?.member || []
-      list.forEach((item: any) => {
-        // item.name = `__$$wwopendata(${item.open_user_id}, userName)(${item.positionname})`
+      list.forEach((item: any, index: number) => {
         item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})`
+        // item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})__$$wwopendata(哈哈+${index}, departmentName)`
         item.id = item.memberid
         item.pid = ''
         item.iswwopendata = true
@@ -128,8 +128,8 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     return html`
       <wxworksuite-tree
         wwopendatatype="expression"
-        displaytype="mobile"
-        expandicon="organization"
+        displaytype="${this.displaytype}"
+        expandicon="normal"
         searchplaceholder="${this.searchplaceholder}"
         .issearch="${this.issearch}"
         .iswwopendata="${true}"

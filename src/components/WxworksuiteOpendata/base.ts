@@ -40,13 +40,14 @@ export default class WxworksuiteBaseOpendata extends LitElement {
       if (this.wwopendataRef) {
         if (topWWOpenData) {
           topWWOpenData.bind(this.wwopendataRef)
-          // WWOpenData.on('update', (event: any) => {
+          // topWWOpenData.on('update', (event: any) => {
           //   const openid = event.detail.element.getAttribute('openid')
           //   console.log('渲染数据发生变更', event, openid)
           // })
-          // topWWOpenData.on('error', (event: any) => {
-          //   console.error('获取数据失败', event)
-          // })
+          topWWOpenData.on('error', (event: any) => {
+            // console.error('获取数据失败', event)
+            this._isCanUseWxworkSuite = false
+          })
         }
       }
     }).catch((err) => {

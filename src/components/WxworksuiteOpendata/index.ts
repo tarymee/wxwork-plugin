@@ -60,69 +60,13 @@ export default class WxworksuiteOpendata extends LitElement {
         //     content: '6'
         //   }
         // ]
-        this._expressionArr = this._getWwValues()
+        this._expressionArr = getExpressionArr(this.openid)
         // console.log(this._expressionArr)
       } else {
         this._expressionArr = []
       }
     }
   }
-
-
-  _getWwValues (): any {
-    // let typeReg = /__\$\$wwopendata\(([a-zA-Z0-9]+),\s+([a-zA-Z]+)\)/
-    // let reg = /__\$\$wwopendata\(([a-zA-Z0-9]+)\)/
-    // let typeReg = /__\$\$wwopendata\(([^()\s,]+),\s+([a-zA-Z]+)\)/
-    let reg = /__\$\$wwopendata\(([^()]+)\)/
-    let matcher: any
-    let index = 0
-    let value = this.openid
-
-    const res: any = []
-
-    while (
-      (matcher = value.match(reg))
-    ) {
-      let code = ''
-      let openDataType = ''
-      if (matcher[1].includes(',')) {
-        const split = matcher[1].split(',')
-        code = split[0].trim()
-        openDataType = split[1].trim()
-      } else {
-        code = matcher[1]
-      }
-
-      if (matcher.index > 0) {
-        res.push({
-          type: 'text',
-          content: value.slice(0, matcher.index)
-        })
-      }
-      value = value.slice(matcher.index + matcher[0].length)
-      res.push({
-        type: openDataType,
-        content: code
-      })
-      index += matcher.index + matcher[0].length
-    }
-    if (index && index < this.openid.length) {
-      res.push({
-        type: 'text',
-        content: this.openid.slice(index)
-      })
-    }
-
-    if (!res.length) {
-      res.push({
-        type: 'text',
-        content: this.openid
-      })
-    }
-
-    return res
-  }
-
 
   getValue () {
     if (this.type === 'expression') {
@@ -212,4 +156,59 @@ export default class WxworksuiteOpendata extends LitElement {
       }
     `
   }
+}
+
+
+export const getExpressionArr = (openid: string): any => {
+  // let typeReg = /__\$\$wwopendata\(([a-zA-Z0-9]+),\s+([a-zA-Z]+)\)/
+  // let reg = /__\$\$wwopendata\(([a-zA-Z0-9]+)\)/
+  // let typeReg = /__\$\$wwopendata\(([^()\s,]+),\s+([a-zA-Z]+)\)/
+  let reg = /__\$\$wwopendata\(([^()]+)\)/
+  let matcher: any
+  let index = 0
+  let value = openid
+
+  const res: any = []
+
+  while (
+    (matcher = value.match(reg))
+  ) {
+    let code = ''
+    let openDataType = ''
+    if (matcher[1].includes(',')) {
+      const split = matcher[1].split(',')
+      code = split[0].trim()
+      openDataType = split[1].trim()
+    } else {
+      code = matcher[1]
+    }
+
+    if (matcher.index > 0) {
+      res.push({
+        type: 'text',
+        content: value.slice(0, matcher.index)
+      })
+    }
+    value = value.slice(matcher.index + matcher[0].length)
+    res.push({
+      type: openDataType,
+      content: code
+    })
+    index += matcher.index + matcher[0].length
+  }
+  if (index && index < openid.length) {
+    res.push({
+      type: 'text',
+      content: openid.slice(index)
+    })
+  }
+
+  if (!res.length) {
+    res.push({
+      type: 'text',
+      content: openid
+    })
+  }
+
+  return res
 }

@@ -7,6 +7,7 @@ import { cloneDeep, debounce } from 'lodash-es'
 import { listToTree } from './utils'
 import { axios } from '../../axios'
 import jssdk from '../../jssdk'
+import { getExpressionArr } from '../WxworksuiteOpendata/index'
 
 export default class WxworksuiteTree extends LitElement {
 
@@ -48,10 +49,12 @@ export default class WxworksuiteTree extends LitElement {
       /* box-shadow: 0px 0px 2px #ddd inset; */
     }
     .tree-web .tree-search {
-      border-radius: 5px;
+      border-radius: 3px;
+      border: 1px solid #dcdfe6;
+      /* border: none; */
     }
     .tree-search input {
-      /* display: none; */
+      display: block;
       background-color: #FFF;
       line-height: 30px;
       height: 30px;
@@ -183,6 +186,21 @@ export default class WxworksuiteTree extends LitElement {
 
   @state()
   protected _isonelevel = true
+
+  @state()
+  protected _isCanUseWxworkSuite = false
+
+  async connectedCallback () {
+    super.connectedCallback()
+    // console.log('connectedCallback')
+
+    jssdk.init().then(() => {
+      this._isCanUseWxworkSuite = true
+    }).catch((err) => {
+      // console.error('jssdk.init() fail', err)
+      this._isCanUseWxworkSuite = false
+    })
+  }
 
   willUpdate (changedProperties: any) {
     if (changedProperties.has('list')) {
@@ -374,17 +392,66 @@ export default class WxworksuiteTree extends LitElement {
     this._searchvalue = this?._inputRef?.value || ''
     console.log(this._searchvalue)
     if (this._searchvalue) {
-      if (this.iswwopendata && this.wwopendatatype) {
+      if (this.iswwopendata && this.wwopendatatype && this._isCanUseWxworkSuite) {
         try {
           const searchOptions = await this._searchWxContactApi(this._searchvalue)
 
-          if (!searchOptions.length) {
+          if (!searchOptions.length && this.wwopendatatype !== 'expression') {
             this._searchlist = []
           } else {
             this._searchlist = this._list.filter((item: any) => {
-              // return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
-              return searchOptions.some((item2: any) => item.name.toString().indexOf(item2.id.toString()) !== -1)
+              if (this.wwopendatatype !== 'expression') {
+                return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
+              } else {
+                // return searchOptions.some((item2: any) => item.name.toString().indexOf(item2.id.toString()) !== -1)
+                const arr = getExpressionArr(item.name)
+                console.log(arr)
+                console.log(searchOptions)
+
+                const testflag = arr.some((item2: any) => item2.type === 'text' && item2.content.indexOf(this._searchvalue) !== -1)
+
+                const userflag = arr.some((item2: any) => {
+                  const isuser = item2.type === 'userName'
+                  if (isuser) {
+                    // woOUQJEAAABj_VNCcRSWLWqlL2mGAezg
+                    // 32个字符+无中文 可以认为是没转移过的openid
+                    const isRealUser = item2.content.length >= 32 && !/[\u4e00-\u9fa5]/g.test(item2.content)
+                    if (isRealUser) {
+                      const a = searchOptions.some((item3: any) => {
+                        return item3.wwopendatatype === 'userName' && item3.id.toString() === item2.content.toString()
+                      })
+                      return a
+                    } else {
+                      return item2.content.indexOf(this._searchvalue) !== -1
+                    }
+                  } else {
+                    return false
+                  }
+                })
+
+                const depflag = arr.some((item2: any) => {
+                  const isdep = item2.type === 'departmentName'
+                  if (isdep) {
+                    // 10
+                    // 整数 可以认为是没转移过的openid
+                    const isRealDep = Number.isInteger(Number(item2.content))
+                    if (isRealDep) {
+                      const a = searchOptions.some((item3: any) => {
+                        return item3.wwopendatatype === 'departmentName' && item3.id.toString() === item2.content.toString()
+                      })
+                      return a
+                    } else {
+                      return item2.content.indexOf(this._searchvalue) !== -1
+                    }
+                  } else {
+                    return false
+                  }
+                })
+
+                return testflag || userflag || depflag
+              }
             })
+            console.log(this._searchlist)
           }
         } catch (err) {
           console.error(err)
