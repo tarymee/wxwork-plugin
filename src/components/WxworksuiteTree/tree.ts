@@ -74,6 +74,9 @@ export default class WxworksuiteTree extends LitElement {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
+    .tree-mobile .tree-con {
+      border-radius: 8px;
+    }
     .tree-none {
       width: 100%;
       height: 100%;
@@ -85,11 +88,19 @@ export default class WxworksuiteTree extends LitElement {
     }
 
 
-    :host {
+
+
+
+
+
+
+
+
+    /* :host {
       display: block;
       width: 100%;
       height: 100%;
-    }
+    } */
     .tree1 {
       display: flex;
       flex-direction: column;
@@ -405,8 +416,8 @@ export default class WxworksuiteTree extends LitElement {
               } else {
                 // return searchOptions.some((item2: any) => item.name.toString().indexOf(item2.id.toString()) !== -1)
                 const arr = getExpressionArr(item.name)
-                console.log(arr)
-                console.log(searchOptions)
+                // console.log(arr)
+                // console.log(searchOptions)
 
                 const testflag = arr.some((item2: any) => item2.type === 'text' && item2.content.indexOf(this._searchvalue) !== -1)
 
@@ -451,7 +462,7 @@ export default class WxworksuiteTree extends LitElement {
                 return testflag || userflag || depflag
               }
             })
-            console.log(this._searchlist)
+            // console.log(this._searchlist)
           }
         } catch (err) {
           console.error(err)
