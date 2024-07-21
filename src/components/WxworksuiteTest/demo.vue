@@ -1,8 +1,8 @@
 <template>
   <div class="test">
-    <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
-    <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
-    <!-- <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button> -->
+    <button class="btn" type="primary" size="large" @click="test">test</button>
+    <button class="btn" type="primary" size="large" @click="getValue">getValue</button>
+    <!-- <button class="btn" type="primary" size="large" @click="setValue">setValue</button> -->
   </div>
 
   {{ arr }}

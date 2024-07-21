@@ -1,8 +1,8 @@
 <template>
   <div class="test">
-    <van-button class="btn" type="primary" size="large" @click="test">test</van-button>
-    <van-button class="btn" type="primary" size="large" @click="getValue">getValue</van-button>
-    <van-button class="btn" type="primary" size="large" @click="setValue">setValue</van-button>
+    <button class="btn" @click="test">test</button>
+    <button class="btn" @click="getValue">getValue</button>
+    <button class="btn" @click="setValue">setValue</button>
   </div>
   <!-- <div class="test-wxworksuite-tree">
     <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="iswwopendata" :wwopendatatype="wwopendatatype"
@@ -16,7 +16,8 @@
     {{ treeNode?.name }}
     <wxworksuite-opendata v-if="treeNode" :openid="treeNode.name" type="departmentName"></wxworksuite-opendata>
   </div>
-  <van-popup v-model:show="show" position="bottom" :style="{ height: '80%', zIndex: 9999 }" :lazy-render="false">
+
+  <div v-show="show" class="test-popup">
     <div class="widget-tree-popup">
       <div class="widget-tree-popup-content">
         <wxworksuite-tree ref="wxworksuitetreeRef" :iswwopendata="wxworksuitetreestate.iswwopendata"
@@ -27,7 +28,7 @@
         </wxworksuite-tree>
       </div>
     </div>
-  </van-popup>
+  </div>
 
 </template>
 
@@ -208,10 +209,11 @@ const test = () => {
   margin: 16px;
 }
 .test button {
+  display: block;
   margin: 8px 0;
 }
 .test-wxworksuite-tree {
-  background-color: #F6F6F6;
+  // background-color: #F6F6F6;
   // background-color: #Fff;
   width: 100%;
   height: 500px;
@@ -225,6 +227,13 @@ const test = () => {
 
 
 <style lang="less">
+.test-popup {
+  width: 100%;
+  height: 70%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
 .widget-tree-popup {
   box-sizing: border-box;
   position: relative;

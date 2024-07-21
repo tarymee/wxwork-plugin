@@ -1,12 +1,12 @@
 <template>
   <div class="demo-btn">
-    <van-button class="btn" type="primary" size="large" @click="singleSetValue">单选赋值</van-button>
-    <van-button class="btn" type="primary" size="large" @click="singleGetValue">单选取值</van-button>
+    <button class="btn" type="primary" size="large" @click="singleSetValue">单选赋值</button>
+    <button class="btn" type="primary" size="large" @click="singleGetValue">单选取值</button>
   </div>
 
-  <div class="tree-form" @click="singleToggleShow">
-    <div class="tree-form-l">营销组织单选：</div>
-    <div class="tree-form-r">
+  <div class="demo-form" @click="singleToggleShow">
+    <div class="demo-form-l">营销组织单选：</div>
+    <div class="demo-form-r">
       <wxworksuite-opendata v-if="singleNode" :openid="singleNode.name" type="departmentName" />
       <div v-else>
         请选择
@@ -14,12 +14,21 @@
     </div>
   </div>
 
-  <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
-    <div class="tree-popup">
-      <!-- <wxworksuite-organizationpick-mobile ref="singleRef" @select="singleHandleSelect" /> -->
+  <div v-show="singleShow" class="demo-popup-wrap" :style="{ height: '55%' }">
+    <div class="demo-popup">
+      <wxworksuite-organizationpick-mobile ref="singleRef" :issearch="true" @select="singleHandleSelect" />
+      <!-- <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" /> -->
+      <!-- <wxworksuite-memberpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" /> -->
+    </div>
+  </div>
+
+
+  <!-- <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }">
+    <div class="demo-popup">
+      <wxworksuite-organizationpick-mobile ref="singleRef" @select="singleHandleSelect" />
       <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" />
     </div>
-  </van-popup>
+  </van-popup> -->
 
 
 
@@ -28,17 +37,17 @@
 
 
   <div class="demo-btn">
-    <van-button class="btn" type="primary" size="large" @click="mulSetValue">多选赋值</van-button>
-    <van-button class="btn" type="primary" size="large" @click="mulGetValue">多选取值</van-button>
+    <button class="btn" type="primary" size="large" @click="mulSetValue">多选赋值</button>
+    <button class="btn" type="primary" size="large" @click="mulGetValue">多选取值</button>
   </div>
 
-  <div class="tree-form" @click="mulToggleShow">
-    <div class="tree-form-l">营销组织多选：</div>
-    <div class="tree-form-r">
+  <div class="demo-form" @click="mulToggleShow">
+    <div class="demo-form-l">营销组织多选：</div>
+    <div class="demo-form-r">
       <template v-if="mulNode && mulNode.length">
-        <van-tag v-for="(item, index) in mulNode" :key="index" plain type="primary" closeable @close="mulRemove(item)">
+        <span v-for="(item, index) in mulNode" :key="index" plain type="primary" closeable @close="mulRemove(item)">
           <wxworksuite-opendata :openid="item.name" type="departmentName" />
-        </van-tag>
+        </span>
       </template>
       <div v-else>
         请选择
@@ -46,23 +55,33 @@
     </div>
   </div>
 
-
-
-  <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }">
-    <div class="tree-popup" style="height: 300px">
+  <div v-show="mulShow" class="demo-popup-wrap" :style="{ height: '85%' }">
+    <div class="demo-popup" style="height: 300px">
       <div class="tree-popup-con">
         <wxworksuite-organizationpick-mobile ref="mulRef" :issearch="true" ismulselect="{{ true }}"  />
       </div>
       <div class="tree-popup-btn">
-        <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>
-        <van-button class="btn" type="primary" size="large" @click="mulComfirm">确定</van-button>
+        <button class="btn" type="primary" size="large" @click="mulCancel">取消</button>
+        <button class="btn" type="primary" size="large" @click="mulComfirm">确定</button>
       </div>
     </div>
-  </van-popup>
+  </div>
+
+  <!-- <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }">
+    <div class="demo-popup" style="height: 300px">
+      <div class="tree-popup-con">
+        <wxworksuite-organizationpick-mobile ref="mulRef" :issearch="true" ismulselect="{{ true }}"  />
+      </div>
+      <div class="tree-popup-btn">
+        <button class="btn" type="primary" size="large" @click="mulCancel">取消</button>
+        <button class="btn" type="primary" size="large" @click="mulComfirm">确定</button>
+      </div>
+    </div>
+  </van-popup> -->
 
   <!-- <div class="van-overlay" role="button" tabindex="0" style="z-index: 2002;"></div>
   <div class="van-popup van-popup--bottom" role="dialog" tabindex="0" :style="{ height: '40%', zIndex: 9999 }">
-    <div class="tree-popup" style="height: 300px">
+    <div class="demo-popup" style="height: 300px">
       <div class="tree-popup-con">
         <wxworksuite-organizationpick-mobile ref="mulRef" :issearch="true" ismulselect="{{ true }}"  />
       </div>
@@ -75,7 +94,8 @@
 import { ref } from 'vue'
 
 const singleRef = ref(null)
-const singleShow = ref(false)
+// const singleShow = ref(false)
+const singleShow = ref(true)
 const singleNode = ref(null)
 
 const singleToggleShow = () => {
@@ -181,20 +201,56 @@ const mulComfirm = () => {
   margin: 8px 0;
 }
 
-
-.tree-form {
+.demo-form {
   margin: 16px;
   display: flex;
   justify-content: space-between;
 }
 
-
-.tree-popup {
+.demo-popup-wrap {
+  width: 100%;
+  height: 70%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.demo-popup {
   box-sizing: border-box;
   // position: relative;
   height: 100%;
   background-color: #F6F6F6;
+  // background-color: #000;
   padding: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.widget-tree-popup {
+  box-sizing: border-box;
+  position: relative;
+  height: 100%;
+  background-color: #F6F6F6;
+  padding: 12px;
+}
+.widget-tree-popup-content {
+  height: 100%;
+  overflow-y: auto;
+  text-align: left;
 }
 
 .tree-popup-con {
