@@ -14,23 +14,28 @@
     </div>
   </div>
 
-  <div v-show="singleShow" class="demo-popup-wrap" :style="{ height: '55%' }">
+  <!-- <div v-show="singleShow" class="demo-popup-wrap" :style="{ height: '55%' }">
     <div class="demo-popup">
       <wxworksuite-organizationpick-mobile ref="singleRef" :issearch="true" @select="singleHandleSelect" />
-      <!-- <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" /> -->
-      <!-- <wxworksuite-memberpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" /> -->
     </div>
-  </div>
+  </div> -->
 
-
-  <!-- <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }">
+  <!--  :lock-scroll="false" -->
+  <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '55%', 'z-index': 2002 }" :lazy-render="false">
     <div class="demo-popup">
-      <wxworksuite-organizationpick-mobile ref="singleRef" @select="singleHandleSelect" />
+      <!-- <div class="" style="height: 1000px;">
+        ssss
+      </div> -->
       <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" />
     </div>
-  </van-popup> -->
+  </van-popup>
 
-
+  <!-- <div class="van-overlay" role="button" tabindex="0" style="z-index: 2002;"></div>
+  <div class="van-popup van-popup--bottom" role="dialog" tabindex="0" :style="{ height: '55%', 'z-index': 9999 }">
+    <div class="demo-popup">
+      <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" />
+    </div>
+  </div> -->
 
 
 
@@ -221,9 +226,12 @@ const mulComfirm = () => {
   background-color: #F6F6F6;
   // background-color: #000;
   padding: 12px;
+  overflow: auto;
 }
 
-
+wxworksuite-organizationpick-web {
+  z-index: 99999;
+}
 
 
 
