@@ -11,9 +11,7 @@ export default class WxworksuiteBaseOpendata extends LitElement {
     }
   }
 
-  static styles = css`
-    :host {}
-  `
+  static styles = css``
 
   @property({ type: String })
   openid: string = ''
@@ -27,6 +25,9 @@ export default class WxworksuiteBaseOpendata extends LitElement {
   @state()
   protected _isCanUseWxworkSuite = true
 
+  @state()
+  protected _topWWOpenData: any = null
+
   get wwopendataRef () {
     return this.renderRoot?.querySelector('ww-open-data') ?? null
   }
@@ -39,10 +40,15 @@ export default class WxworksuiteBaseOpendata extends LitElement {
       this._isCanUseWxworkSuite = true
       if (this.wwopendataRef) {
         if (topWWOpenData) {
+          this._topWWOpenData = topWWOpenData
           topWWOpenData.bind(this.wwopendataRef)
           // topWWOpenData.on('update', (event: any) => {
           //   const openid = event.detail.element.getAttribute('openid')
           //   console.log('渲染数据发生变更', event, openid)
+          //   if (this.type === 'departmentName') {
+          //     console.log('渲染数据发生变更', event)
+          //     console.log('渲染数据发生变更', openid)
+          //   }
           // })
           topWWOpenData.on('error', (event: any) => {
             // console.error('获取数据失败', event)
@@ -54,6 +60,16 @@ export default class WxworksuiteBaseOpendata extends LitElement {
       // console.error('jssdk.init() fail', err)
       this._isCanUseWxworkSuite = false
     })
+  }
+
+  updated (changedProperties: any) {
+    // 页面在浏览器，在 iOS，Mac，Android 上面的企业微信都表现正常，但是在 windows 企业微信下，会偶发不能渲染通讯录控件内容
+    // 解答：由于 企业微信的 windows 客户端浏览器内核不支持 customElements，每次更新了 open-data 元素后，需要用 bind 或者 bindAll 接口对目标元素进行一次更新，这样才能保证 open-data 元素实时渲染正确的数据。遇到上面的情况，请检查一下页面代码，看看有没有可能出现时序问题：先执行了 bind，然后才渲染出对应的 open-data 元素
+    if (changedProperties.has('openid')) {
+      if (this.wwopendataRef && this._isCanUseWxworkSuite && this._topWWOpenData) {
+        this._topWWOpenData.bind(this.wwopendataRef)
+      }
+    }
   }
 
   // private test (e: Event) {
