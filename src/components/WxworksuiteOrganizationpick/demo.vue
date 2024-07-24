@@ -21,11 +21,9 @@
   </div> -->
 
   <!--  :lock-scroll="false" -->
-  <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '55%', 'z-index': 2002 }" :lazy-render="false">
+  <!-- van-popup打开会在body上加van-overflow-hidden类锁定body滚动，锁定滚动影响了shadow-dom内部的滚动，在van-popup上加   :lock-scroll="false"  不锁定body滚动可解决 -->
+  <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '55%' }" :lazy-render="false">
     <div class="demo-popup">
-      <!-- <div class="" style="height: 1000px;">
-        ssss
-      </div> -->
       <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" />
     </div>
   </van-popup>
@@ -221,18 +219,10 @@ const mulComfirm = () => {
 }
 .demo-popup {
   box-sizing: border-box;
-  // position: relative;
   height: 100%;
   background-color: #F6F6F6;
-  // background-color: #000;
   padding: 12px;
-  overflow: auto;
 }
-
-wxworksuite-organizationpick-web {
-  z-index: 99999;
-}
-
 
 
 
