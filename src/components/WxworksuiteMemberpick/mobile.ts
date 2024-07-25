@@ -30,6 +30,9 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
   @property({ type: Boolean })
   issearch: boolean = true
 
+  @property({ type: Boolean })
+  userule: boolean = true
+
   @property({ type: String })
   searchplaceholder: string = '请输入关键字搜索'
 
@@ -52,21 +55,48 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
 
   constructor () {
     super()
-    axios.post('/api/teapi/dy-biz/1032470355689738336/1273067686762516579', {
-      member: {
-        searchkey: '',
-        orglimit: '',
-        orgstructid: '',
-        email: '',
-        includechild: '1'
-      }
+    // axios.post('/api/teapi/dy-biz/1032470355689738336/1273067686762516579', {
+    //   member: {
+    //     searchkey: '',
+    //     orglimit: '',
+    //     orgstructid: '',
+    //     email: '',
+    //     includechild: '1'
+    //   }
+    // }).then((res: any) => {
+    //   // console.log(res)
+    //   const list = res?.data?.member || []
+    //   list.forEach((item: any, index: number) => {
+    //     item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})`
+    //     // item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})__$$wwopendata(哈哈+${index}, departmentName)`
+    //     item.id = item.memberid
+    //     item.pid = ''
+    //     item.iswwopendata = true
+    //     item.wwopendatatype = 'expression'
+    //   })
+    //   this._list = list
+    // })
+
+
+    axios.post('/api/system/v1.0/member/getMemberList', {
+      name: '',
+      phoneNumber: '',
+      saleAreaCodePath: '',
+      positionName: '',
+      pageindex: 1,
+      pagesize: 99999,
+      // useRule: false, // 使用数据权限
+      // useRule: this.userule, // 使用数据权限
+      appcode: 'sales',
+      belongDistributorId: ''
     }).then((res: any) => {
       // console.log(res)
-      const list = res?.data?.member || []
+      // debugger
+      const list = res?.data?.data?.list || []
       list.forEach((item: any, index: number) => {
-        item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})`
-        // item.name = `__$$wwopendata(${item.userinfoname}, userName)(${item.positionname})__$$wwopendata(哈哈+${index}, departmentName)`
-        item.id = item.memberid
+        item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})`
+        // item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})__$$wwopendata(哈哈+${index}, departmentName)`
+        item.id = item.memberId
         item.pid = ''
         item.iswwopendata = true
         item.wwopendatatype = 'expression'

@@ -412,7 +412,21 @@ export default class WxworksuiteTree extends LitElement {
           } else {
             this._searchlist = this._list.filter((item: any) => {
               if (this.wwopendatatype !== 'expression') {
-                return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
+                if (this.wwopendatatype === 'userName') {
+                  const isRealOpenid = item.name.length >= 32 && !/[\u4e00-\u9fa5]/g.test(item.name)
+                  if (isRealOpenid) {
+                    return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
+                  } else {
+                    return item.name.indexOf(this._searchvalue) !== -1
+                  }
+                } else if (this.wwopendatatype === 'departmentName') {
+                  const isRealOpenid = Number.isInteger(Number(item.name))
+                  if (isRealOpenid) {
+                    return searchOptions.some((item2: any) => item2.id.toString() === item.name.toString())
+                  } else {
+                    return item.name.indexOf(this._searchvalue) !== -1
+                  }
+                }
               } else {
                 // return searchOptions.some((item2: any) => item.name.toString().indexOf(item2.id.toString()) !== -1)
                 const arr = getExpressionArr(item.name)

@@ -25,6 +25,7 @@
   <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '55%' }" :lazy-render="false">
     <div class="demo-popup">
       <wxworksuite-organizationpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" />
+      <!-- <wxworksuite-memberpick-web ref="singleRef" :issearch="true" @select="singleHandleSelect" /> -->
     </div>
   </van-popup>
 

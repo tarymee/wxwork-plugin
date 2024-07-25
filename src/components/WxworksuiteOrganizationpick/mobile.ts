@@ -30,6 +30,9 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
   @property({ type: Boolean })
   issearch: boolean = true
 
+  @property({ type: Boolean })
+  userule: boolean = true
+
   @property({ type: String })
   searchplaceholder: string = '请输入关键字搜索'
 
@@ -55,13 +58,32 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
 
   constructor () {
     super()
-    axios.post('/api/teapi/dy-biz/100000000000000000/110000000000000000', {
-      pl_orgstruct: {
-        status: '1'
-      }
+    // axios.post('/api/teapi/dy-biz/100000000000000000/110000000000000000', {
+    //   pl_orgstruct: {
+    //     status: '1'
+    //   }
+    // }).then((res: any) => {
+    //   // console.log(res)
+    //   const list = res?.data?.pl_orgstruct || []
+    //   list.forEach((item: any) => {
+    //     item.name = item.orgname
+    //     // item.name = '1'
+    //     item.id = item.orgstructid
+    //     item.pid = item.parentorgstructid
+    //   })
+    //   this._list = list
+    // })
+
+    axios.post('/api/system/v1.0/org/page', {
+      showchild: true,
+      orgstructtypeid: 1,
+      useRule: this.userule, // 使用数据权限
+      pageindex: 1,
+      pagesize: 99999,
+      getAllStatus: false // 是否获取全部数据（即包含禁用）
     }).then((res: any) => {
       // console.log(res)
-      const list = res?.data?.pl_orgstruct || []
+      const list = res?.data?.data?.list || []
       list.forEach((item: any) => {
         item.name = item.orgname
         // item.name = '1'
