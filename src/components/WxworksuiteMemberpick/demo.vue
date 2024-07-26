@@ -16,7 +16,7 @@
 
   <van-popup v-model:show="singleShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
     <div class="tree-popup">
-      <wxworksuite-memberpick-mobile ref="singleRef" @select="singleHandleSelect" />
+      <wxworksuite-memberpick-mobile ref="singleRef" :userule="true" :issearch="true" @select="singleHandleSelect" />
     </div>
   </van-popup>
 
@@ -49,7 +49,7 @@
 
   <van-popup v-model:show="mulShow" position="bottom" :style="{ height: '85%', zIndex: 9999 }" :lazy-render="false">
     <div class="tree-popup" style="height: calc(100% - 80px)">
-      <wxworksuite-memberpick-mobile ref="mulRef" ismulselect="{{ true }}" />
+      <wxworksuite-memberpick-mobile ref="mulRef" :userule="false" :issearch="false" ismulselect="{{ true }}" />
     </div>
     <div class="tree-popup-btn">
       <van-button class="btn" type="primary" size="large" @click="mulCancel">取消</van-button>

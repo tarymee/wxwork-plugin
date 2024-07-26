@@ -1,7 +1,5 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
-import { classMap } from 'lit/directives/class-map.js'
-import { styleMap } from 'lit/directives/style-map.js'
+import { property, state } from 'lit/decorators.js'
 import { axios } from '../../axios'
 
 export default class WxworksuiteOrganizationpickMobile extends LitElement {
@@ -54,10 +52,13 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
   protected _expandicon = 'organization'
 
   @state()
+  protected _isWxworkSuiteTenant: boolean = true
+
+  @state()
   protected _list: any = []
 
-  constructor () {
-    super()
+  connectedCallback () {
+    super.connectedCallback()
     // axios.post('/api/teapi/dy-biz/100000000000000000/110000000000000000', {
     //   pl_orgstruct: {
     //     status: '1'
@@ -146,12 +147,12 @@ export default class WxworksuiteOrganizationpickMobile extends LitElement {
   render () {
     return html`
       <wxworksuite-tree
-        wwopendatatype="departmentName"
+        wwopendatatype="${this._isWxworkSuiteTenant ? 'departmentName' : ''}"
         displaytype="${this.displaytype}"
         expandicon="${this._expandicon}"
         searchplaceholder="${this.searchplaceholder}"
         .issearch="${this.issearch}"
-        .iswwopendata="${true}"
+        .iswwopendata="${this._isWxworkSuiteTenant}"
         .list="${this._list}"
         .ismulselect="${this.ismulselect}"
         singleselectmode="${this.singleselectmode}"

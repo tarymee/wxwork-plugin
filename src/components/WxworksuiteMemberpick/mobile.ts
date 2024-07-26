@@ -1,8 +1,7 @@
 import { LitElement, css, html } from 'lit'
-import { customElement, property, state } from 'lit/decorators.js'
-import { classMap } from 'lit/directives/class-map.js'
-import { styleMap } from 'lit/directives/style-map.js'
+import { property, state } from 'lit/decorators.js'
 import { axios } from '../../axios'
+import { isWxworkSuiteTenant } from '../../jssdk'
 
 export default class WxworksuiteMemberpickMobile extends LitElement {
 
@@ -51,10 +50,13 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
   singleselectmode: string = 'normal'
 
   @state()
+  protected _isWxworkSuiteTenant: boolean = true
+
+  @state()
   protected _list: any = []
 
-  constructor () {
-    super()
+  connectedCallback () {
+    super.connectedCallback()
     // axios.post('/api/teapi/dy-biz/1032470355689738336/1273067686762516579', {
     //   member: {
     //     searchkey: '',
@@ -77,6 +79,11 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     //   this._list = list
     // })
 
+    // console.log('issearch', this.issearch)
+    // console.log('userule', this.userule)
+    // debugger
+
+    this._isWxworkSuiteTenant = isWxworkSuiteTenant()
 
     axios.post('/api/system/v1.0/member/getMemberList', {
       name: '',
@@ -85,8 +92,7 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
       positionName: '',
       pageindex: 1,
       pagesize: 99999,
-      // useRule: false, // 使用数据权限
-      // useRule: this.userule, // 使用数据权限
+      notUseRule: !this.userule, // 使用数据权限
       appcode: 'sales',
       belongDistributorId: ''
     }).then((res: any) => {
@@ -94,12 +100,16 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
       // debugger
       const list = res?.data?.data?.list || []
       list.forEach((item: any, index: number) => {
-        item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})`
-        // item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})__$$wwopendata(哈哈+${index}, departmentName)`
         item.id = item.memberId
         item.pid = ''
-        item.iswwopendata = true
-        item.wwopendatatype = 'expression'
+        if (this._isWxworkSuiteTenant) {
+          item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})`
+          // item.name = `__$$wwopendata(${item.userName}, userName)(${item.positionName})__$$wwopendata(哈哈+${index}, departmentName)`
+          item.iswwopendata = true
+          item.wwopendatatype = 'expression'
+        } else {
+          item.name = `${item.userName}(${item.positionName})`
+        }
       })
       this._list = list
     })
@@ -153,16 +163,15 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     this.treeRef?.setSelect(id, value)
   }
 
-
   render () {
     return html`
       <wxworksuite-tree
-        wwopendatatype="expression"
+        wwopendatatype="${this._isWxworkSuiteTenant ? 'expression' : ''}"
         displaytype="${this.displaytype}"
         expandicon="normal"
         searchplaceholder="${this.searchplaceholder}"
         .issearch="${this.issearch}"
-        .iswwopendata="${true}"
+        .iswwopendata="${this._isWxworkSuiteTenant}"
         .list="${this._list}"
         .ismulselect="${this.ismulselect}"
         singleselectmode="${this.singleselectmode}"

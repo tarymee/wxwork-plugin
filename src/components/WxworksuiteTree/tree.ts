@@ -143,7 +143,7 @@ export default class WxworksuiteTree extends LitElement {
 
   // 控制通信录转移类型
   @property({ type: String })
-  wwopendatatype: string = '' // userName | departmentName | expression
+  wwopendatatype: string = '' // userName | departmentName | expression | ''
 
   @property({ type: String })
   valuekey: string = 'id' // 默认id 也可定义别的属性值比如 codepath（被定义的属性值必须唯一）
