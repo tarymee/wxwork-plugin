@@ -84,6 +84,7 @@ export default class WxworksuiteMemberpickMobile extends LitElement {
     // debugger
 
     this._isWxworkSuiteTenant = isWxworkSuiteTenant()
+    // debugger
 
     axios.post('/api/system/v1.0/member/getMemberList', {
       name: '',
