@@ -1,6 +1,6 @@
 {
   "name": "@smart100/wxworksuite-plugin",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "scripts": {
     "dev": "npm run build:types && rollup -c -w",
